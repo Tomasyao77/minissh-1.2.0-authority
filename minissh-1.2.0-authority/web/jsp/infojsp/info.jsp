@@ -86,6 +86,7 @@
                 <li class="active" id="liid-homepage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][0])" ng-bind="constRef[1][0]"></a></li>
                 <li id="liid-usermanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][1])" ng-bind="constRef[1][1]"></a></li>
                 <li id="liid-filemanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][2])" ng-bind="constRef[1][2]"></a></li>
+                <li id="liid-rolemanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][3])" ng-bind="constRef[1][3]"></a></li>
             </ul>
         </div>
 
@@ -105,9 +106,9 @@
                     <td ng-bind="item.username"></td>
                     <td ng-bind="item.tel"></td>
                     <td ng-bind="item.createTime"></td>
-                    <td><button ng-click="actionOnUser(item,constRef[0][0])" type="button" class="btn btn-info btn-sm"><span ng-bind="constRef[0][0]"></span></button>
-                    <button ng-click="actionOnUser(item,constRef[0][1])" type="button" class="btn btn-warning btn-sm"><span ng-bind="constRef[0][1]"></span></button>
-                    <button ng-click="actionOnUser(item,constRef[0][2])" type="button" class="btn btn-danger btn-sm"><span ng-bind="constRef[0][2]"></span></button></td>
+                    <td><button ng-click="actionOnUser(item,constRef[0][0])" type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-user"></span>&nbsp;<span ng-bind="constRef[0][0]"></span></button>
+                    <button ng-click="actionOnUser(item,constRef[0][1])" type="button" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;<span ng-bind="constRef[0][1]"></span></button>
+                    <button ng-click="actionOnUser(item,constRef[0][2])" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-bind="constRef[0][2]"></span></button></td>
                 </tr>
                 </tbody>
             </table>

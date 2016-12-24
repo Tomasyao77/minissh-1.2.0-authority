@@ -108,7 +108,7 @@
                 <p>确认要删除吗?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteWork(this)">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="deleteOne(deleteOneItem)">确定</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
             </div>
         </div><!-- /.modal-content -->

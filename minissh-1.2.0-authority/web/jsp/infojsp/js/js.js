@@ -14,7 +14,7 @@ var offFunction = function(){
 
 //angularModuleStart
 angular.module("mainapp",[])
-    .constant('constRef',[["查看详情","分配角色","删除"],["首页","用户管理","文件管理"]])
+    .constant('constRef',[["查看详情","分配角色","删除"],["首页","用户管理","文件管理","角色管理"]])
     .controller("maincontroller",function($scope,constRef){
         $scope.currentPage = 0;
         $scope.totalPage = 0;
@@ -27,25 +27,40 @@ angular.module("mainapp",[])
                 $("#divid-homepage").show();
                 $("#divid-usermanage").hide();
                 $("#divid-filemanage").hide();
+                $("#divid-rolemanage").hide();
                 $("#liid-homepage").attr("class","active");
                 $("#liid-usermanage").removeClass("active");
                 $("#liid-filemanage").removeClass("active");
+                $("#liid-rolemanage").removeClass("active");
             }else if(obj == "用户管理"){
                 $("#divid-homepage").hide();
                 $("#divid-usermanage").show();
                 $("#divid-filemanage").hide();
+                $("#divid-rolemanage").hide();
                 $("#liid-homepage").removeClass("active");
                 $("#liid-usermanage").attr("class","active");
                 $("#liid-filemanage").removeClass("active");
+                $("#liid-rolemanage").removeClass("active");
 
                 $scope.getUserPageList();
             }else if(obj == "文件管理"){
                 $("#divid-homepage").hide();
                 $("#divid-usermanage").hide();
                 $("#divid-filemanage").show();
+                $("#divid-rolemanage").hide();
                 $("#liid-homepage").removeClass("active");
                 $("#liid-usermanage").removeClass("active");
                 $("#liid-filemanage").attr("class","active");
+                $("#liid-rolemanage").removeClass("active");
+            }else if(obj == "角色管理"){
+                $("#divid-homepage").hide();
+                $("#divid-usermanage").hide();
+                $("#divid-filemanage").hide();
+                $("#divid-rolemanage").show();
+                $("#liid-homepage").removeClass("active");
+                $("#liid-usermanage").removeClass("active");
+                $("#liid-filemanage").removeClass("active");
+                $("#liid-rolemanage").attr("class","active");
             }
         };
         $scope.deleteOne = function(item){
@@ -143,7 +158,8 @@ angular.module("mainapp",[])
             }else if(obj == "分配角色"){
 
             }else if(obj == "删除"){
-                $scope.deleteOne();
+                $("#modalid-delconf").modal("toggle");
+                $scope.deleteOneItem = item;
             }
         };
     })//main controller end
