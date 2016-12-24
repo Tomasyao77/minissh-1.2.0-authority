@@ -14,9 +14,9 @@ var offFunction = function(){
 
 //angularModuleStart
 angular.module("mainapp",[])
-    .constant('constRef',[["查看详情","分配角色","删除"],
-        ["首页","用户管理","文件管理","角色管理"],
-        ["查看详情","删除","新增角色","搜索"]])
+    .constant('constRef',[["查看详情","分配角色","删除"],//user table
+        ["首页","用户管理","文件管理","角色管理"],//left nav bar
+        ["查看详情","删除","新增角色","搜索"]])// role table
     .controller("maincontroller",function($scope,constRef){
         $scope.currentPage = 0;
         $scope.totalPage = 0;
@@ -69,10 +69,10 @@ angular.module("mainapp",[])
                 $scope.getRolePageList();
             }
         };
-        $scope.deleteOne = function(item){
+        $scope.deleteOneUser = function(item){
             $.ajax({
                 type:"POST",
-                url:"/login/delete",
+                url:"/login/deleteOneUser",
                 data:{"id":item.id},
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"json",
@@ -159,14 +159,22 @@ angular.module("mainapp",[])
                         $scope.currentPage = data.page.current;
                         $scope.totalPage = data.page.total;
                         if($scope.currentPage == 1){
-                            $(".btnid-prevpage").attr("disabled","disabled");
+                            for(var i1=0;i1<$(".btnid-prevpage").length;i1++){
+                                $(".btnid-prevpage").eq(i1).attr("disabled","disabled");
+                            }
                         }else{
-                            $(".btnid-nextpage").removeAttr("disabled");
+                            for(var i2=0;i2<$(".btnid-prevpage").length;i2++){
+                                $(".btnid-prevpage").eq(i2).removeAttr("disabled");
+                            }
                         }
                         if($scope.currentPage == $scope.totalPage){
-                            $(".btnid-nextpage").attr("disabled","disabled");
+                            for(var i3=0;i3<$(".btnid-nextpage").length;i3++){
+                                $(".btnid-nextpage").eq(i3).attr("disabled","disabled");
+                            }
                         }else{
-                            $(".btnid-prevpage").removeAttr("disabled");
+                            for(var i4=0;i4<$(".btnid-nextpage").length;i4++){
+                                $(".btnid-nextpage").eq(i4).removeAttr("disabled");
+                            }
                         }
                     });
                 }
@@ -180,17 +188,35 @@ angular.module("mainapp",[])
             }else if(obj == "分配角色"){
 
             }else if(obj == "删除"){
-                $("#modalid-delconf").modal("toggle");
-                $scope.deleteOneItem = item;
+                $scope.deleteOneUserItem = item;
+                $("#modalid-delUserConf").modal("toggle");
             }
         };
-        $scope.actionOnRole = function(obj){
+        $scope.actionOnRole = function(item,obj){
             if(obj == "新增角色"){
                 $scope.newRoleName = "";
                 $("#modalid-newRole").modal("toggle");
             }else if(obj == "搜索"){
 
+            }else if(obj == "查看详情"){
+
+            }else if(obj == "删除"){
+                $scope.deleteOneRoleItem = item;
+                $("#modalid-delRoleConf").modal("toggle");
             }
+        };
+        $scope.deleteOneRole = function(item){
+            $.ajax({
+                type:"POST",
+                url:"/user_role/deleteOneRole",
+                data:{"id":item.id},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    //console.log(data);
+                    $scope.getRolePageList();
+                }
+            });
         };
         $scope.addRole = function(){
             $.ajax({
@@ -202,7 +228,7 @@ angular.module("mainapp",[])
                 success:function(data){
                     console.log(data);
                     $scope.newRoleName = "";
-                    //$scope.getUserPageList();
+                    $scope.getRolePageList();
                 }
             });
         };
@@ -237,14 +263,22 @@ angular.module("mainapp",[])
                         $scope.currentPage = data.page.current;
                         $scope.totalPage = data.page.total;
                         if($scope.currentPage == 1){
-                            $(".btnid-prevpage").attr("disabled","disabled");
+                            for(var i1=0;i1<$(".btnid-prevpage").length;i1++){
+                                $(".btnid-prevpage").eq(i1).attr("disabled","disabled");
+                            }
                         }else{
-                            $(".btnid-nextpage").removeAttr("disabled");
+                            for(var i2=0;i2<$(".btnid-prevpage").length;i2++){
+                                $(".btnid-prevpage").eq(i2).removeAttr("disabled");
+                            }
                         }
                         if($scope.currentPage == $scope.totalPage){
-                            $(".btnid-nextpage").attr("disabled","disabled");
+                            for(var i3=0;i3<$(".btnid-nextpage").length;i3++){
+                                $(".btnid-nextpage").eq(i3).attr("disabled","disabled");
+                            }
                         }else{
-                            $(".btnid-prevpage").removeAttr("disabled");
+                            for(var i4=0;i4<$(".btnid-nextpage").length;i4++){
+                                $(".btnid-nextpage").eq(i4).removeAttr("disabled");
+                            }
                         }
                     });
                 }

@@ -151,10 +151,10 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control" placeholder="请输入角色名">
                                     </div>
-                                    <button type="button" class="btn btn-default" ng-click="actionOnRole(constRef[2][3])">
+                                    <button type="button" class="btn btn-default" ng-click="actionOnRole(this,constRef[2][3])">
                                         <span class="glyphicon glyphicon-search"></span>&nbsp;<span ng-bind="constRef[2][3]"></span>
                                     </button>
-                                    <button type="button" class="btn btn-default" ng-click="actionOnRole(constRef[2][2])">
+                                    <button type="button" class="btn btn-default" ng-click="actionOnRole(this,constRef[2][2])">
                                         <span class="glyphicon glyphicon-plus"></span>&nbsp;<span ng-bind="constRef[2][2]"></span>
                                     </button>
                                 </form>
@@ -169,8 +169,8 @@
                 <tr ng-repeat="item in roleList">
                     <td ng-bind="item.name"></td>
                     <td ng-bind="item.createTime"></td>
-                    <td><button ng-click="actionOnUser(item,constRef[2][0])" type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-user"></span>&nbsp;<span ng-bind="constRef[2][0]"></span></button>
-                        <button ng-click="actionOnUser(item,constRef[2][1])" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-bind="constRef[2][1]"></span></button></td>
+                    <td><button ng-click="actionOnRole(item,constRef[2][0])" type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-user"></span>&nbsp;<span ng-bind="constRef[2][0]"></span></button>
+                        <button ng-click="actionOnRole(item,constRef[2][1])" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-bind="constRef[2][1]"></span></button></td>
                 </tr>
                 </tbody>
             </table>

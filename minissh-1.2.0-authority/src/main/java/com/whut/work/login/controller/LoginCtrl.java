@@ -76,13 +76,13 @@ public class LoginCtrl {
 		return returnMap;
 	}
 	
-	@RequestMapping(value="/delete",method=RequestMethod.POST)
+	@RequestMapping(value="/deleteOneUser",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> delete(HttpServletRequest request,Integer id){
+	public Map<String,Object> deleteOneUser(HttpServletRequest request,Integer id){
 		Map<String,Object> returnMap = new HashMap<String,Object>();
 		
 		try {
-			Map<String,Object> map = userService.delete(id);
+			Map<String,Object> map = userService.deleteOneUser(id);
 			
 			returnMap.put("message", map.get("message"));
 			returnMap.put("success", map.get("success"));

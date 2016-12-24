@@ -32,7 +32,7 @@ public class UserServiceImpl implements IUserService {
 	}
 
     @Override
-    public Map<String, Object> delete(Integer id) throws Exception {
+    public Map<String, Object> deleteOneUser(Integer id) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
         //String hql = "from User u where u.id='"+id+"'";
@@ -85,4 +85,26 @@ public class UserServiceImpl implements IUserService {
         return returnPage;
     }
 
+    @Override
+    public Map<String, Object> deleteOneRole(Integer id) throws Exception {
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        //String hql = "from User u where u.id='"+id+"'";
+        Role role = new Role();
+        try {
+            role = roleDao.getOne(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(role != null){
+            roleDao.delete(role);
+            returnMap.put("message", "删除成功");
+            returnMap.put("success", true);
+            return returnMap;
+        }else{
+            returnMap.put("message", "删除失败");
+            returnMap.put("success", false);
+            return returnMap;
+        }
+    }
 }

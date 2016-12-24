@@ -62,4 +62,22 @@ public class UserCtrl {
         }
         return returnMap;
     }
+
+    @RequestMapping(value="/deleteOneRole",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> deleteOneRole(HttpServletRequest request,Integer id){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            Map<String,Object> map = userService.deleteOneRole(id);
+
+            returnMap.put("message", map.get("message"));
+            returnMap.put("success", map.get("success"));
+        } catch (Exception e) {
+            returnMap.put("message", "异常：操作失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
 }
