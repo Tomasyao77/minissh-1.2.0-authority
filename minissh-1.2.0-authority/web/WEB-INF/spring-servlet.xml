@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd 
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+       
+        <!--扫描注解包 配置这条便可移除 <context:annotation-config/> -->
+        <context:component-scan base-package="com.whut.work" />
+
+        <!--MVC驱动 controller-->
+        <mvc:annotation-driven />
+
+        <!--MVC注解-->
+        <!--针对注解配置@RequestMapping :
+        RequestMappingHandlerMapping 替代了 DefaultAnnotationHandlerMapping-->
+        <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping " />
+       
+        <!--视图解析-->
+        <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <property name="prefix" value="/jsp"/>
+            <property name="suffix" value=".jsp"/>
+        </bean>
+
+        <!--servlet在找页面时，走的是dispatcherServlet路线。找不到的时候会报404
+            加上这个默认的servlet时候，servlet在找不到的时候会去找静态的内容。-->
+        <mvc:default-servlet-handler />
+
+        <!-- 用于将对象转换为 JSON  转换器-->
+        <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+        <bean id="stringConverter"
+              class="org.springframework.http.converter.StringHttpMessageConverter">
+            <property name="supportedMediaTypes">
+                <list>
+                    <value>text/plain;charset=UTF-8</value>
+                </list>
+            </property>
+        </bean>
+        <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+            <property name="supportedMediaTypes">
+                <list>
+                    <value>application/json;charset=UTF-8</value>
+                </list>
+            </property>
+        </bean>
+        <!--RequestMappingHandlerAdapter :
+            和上面的RequestMappingHandlerMapping配对使用-->
+        <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter ">
+            <property name="messageConverters">
+                <list>
+                    <ref bean="stringConverter" />
+                    <ref bean="jsonConverter" />
+                </list>
+            </property>
+        </bean>
+	    
+</beans>
