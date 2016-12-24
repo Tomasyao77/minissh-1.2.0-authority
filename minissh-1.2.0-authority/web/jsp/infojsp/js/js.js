@@ -166,8 +166,8 @@ angular.module("mainapp",[])
         };
         $scope.actionOnRole = function(obj){
             if(obj == "新增角色"){
-                $("#modalid-newRole").modal("toggle");
                 $scope.newRoleName = "";
+                $("#modalid-newRole").modal("toggle");
             }else if(obj == "搜索"){
 
             }
@@ -175,12 +175,13 @@ angular.module("mainapp",[])
         $scope.addRole = function(){
             $.ajax({
                 type:"POST",
-                url:"/login/addRole",
+                url:"/user_role/addRole",
                 data:{"roleName":$scope.newRoleName},
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"json",
                 success:function(data){
                     console.log(data);
+                    $scope.newRoleName = "";
                     //$scope.getUserPageList();
                 }
             });

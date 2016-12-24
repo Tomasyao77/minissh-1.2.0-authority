@@ -1,9 +1,7 @@
 package com.whut.work.user.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by zouy on 2016/12/23.
@@ -16,6 +14,8 @@ public class Role {
     @GeneratedValue
     private Integer id;
     private String name;
+    @Column(name = "create_time")
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -31,5 +31,13 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

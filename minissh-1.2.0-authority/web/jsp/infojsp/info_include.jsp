@@ -124,7 +124,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="transferWork()">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="addRole()">提交</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
