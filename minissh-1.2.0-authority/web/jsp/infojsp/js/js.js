@@ -14,14 +14,13 @@ var offFunction = function(){
 
 //angularModuleStart
 angular.module("mainapp",[])
-    .controller("maincontroller",function($scope){
+    .constant('constRef',[["查看详情","分配角色","删除"],["首页","用户管理","文件管理"]])
+    .controller("maincontroller",function($scope,constRef){
         $scope.currentPage = 0;
         $scope.totalPage = 0;
         $scope.prevPage = "上一页";
         $scope.nextPage = "下一页";
-        $scope.homePage = "首页";
-        $scope.userManage = "用户管理";
-        $scope.fileManage = "文件管理";
+        $scope.constRef = constRef;
 
         $scope.rightDiv = function (obj) {
             if(obj == "首页"){
@@ -49,11 +48,11 @@ angular.module("mainapp",[])
                 $("#liid-filemanage").attr("class","active");
             }
         };
-        $scope.deleteOne = function(obj){
+        $scope.deleteOne = function(item){
             $.ajax({
                 type:"POST",
                 url:"/login/delete",
-                data:{"id":obj.id},
+                data:{"id":item.id},
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"json",
                 success:function(data){
@@ -134,6 +133,17 @@ angular.module("mainapp",[])
                     $scope.currentPage = $scope.currentPage + 1;
                     $scope.getUserPageList();
                 }
+            }
+        };
+        $scope.actionOnUser = function(item,obj){
+            if(obj == "查看详情"){
+                $("#modalid-viewInfo").modal("toggle");
+                $scope.userViewInfo = item;
+                console.log($scope.userViewInfo);
+            }else if(obj == "分配角色"){
+
+            }else if(obj == "删除"){
+                $scope.deleteOne();
             }
         };
     })//main controller end

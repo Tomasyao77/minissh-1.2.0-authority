@@ -26,7 +26,7 @@
         }
     </style>
 </head>
-<body style="background-color: #f7f7f7;" ng-app="mainapp">
+<body style="background-color: #f7f7f7;" ng-app="mainapp" ng-controller="maincontroller">
 <%@ include  file="info_include.jsp"%>
 
 <div class="container" style="background-color: #f7f7f7;padding: 0px;" ng-controller="maincontroller">
@@ -78,14 +78,14 @@
     </div>
 </div>-->
 
-<div class="container" style="background-color: #f7f7f7;margin-top: 2px;" ng-controller="maincontroller">
+<div class="container" style="background-color: #f7f7f7;margin-top: 2px;">
     <div class="row" >
         <div class="col-xs-2" style="border: 1px solid #d9edf7;padding: 2px;">
             <ul class="nav nav-pills nav-stacked">
                 <%--这里a标签不能加href属性，否则会相对首页进行#跳转，但在静态页面无影响--%>
-                <li class="active" id="liid-homepage"><a style="cursor: pointer;" ng-click="rightDiv(homePage)" ng-bind="homePage"></a></li>
-                <li id="liid-usermanage"><a style="cursor: pointer;" ng-click="rightDiv(userManage)" ng-bind="userManage"></a></li>
-                <li id="liid-filemanage"><a style="cursor: pointer;" ng-click="rightDiv(fileManage)" ng-bind="fileManage"></a></li>
+                <li class="active" id="liid-homepage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][0])" ng-bind="constRef[1][0]"></a></li>
+                <li id="liid-usermanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][1])" ng-bind="constRef[1][1]"></a></li>
+                <li id="liid-filemanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][2])" ng-bind="constRef[1][2]"></a></li>
             </ul>
         </div>
 
@@ -98,15 +98,16 @@
             <table class="table table-hover table-striped table-bordered">
                 <caption>用户列表</caption>
                 <thead>
-                <tr><th>用户名</th><th>邮箱</th><th>电话</th><th>创建时间</th><th>操作</th></tr>
+                <tr><th>用户名</th><th>电话</th><th>创建时间</th><th>操作</th></tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in userList">
                     <td ng-bind="item.username"></td>
-                    <td ng-bind="item.email"></td>
                     <td ng-bind="item.tel"></td>
                     <td ng-bind="item.createTime"></td>
-                    <td><input ng-click="deleteOne(item)" type="button" class="btn btn-danger btn-sm" value="删除" /></td>
+                    <td><button ng-click="actionOnUser(item,constRef[0][0])" type="button" class="btn btn-info btn-sm"><span ng-bind="constRef[0][0]"></span></button>
+                    <button ng-click="actionOnUser(item,constRef[0][1])" type="button" class="btn btn-warning btn-sm"><span ng-bind="constRef[0][1]"></span></button>
+                    <button ng-click="actionOnUser(item,constRef[0][2])" type="button" class="btn btn-danger btn-sm"><span ng-bind="constRef[0][2]"></span></button></td>
                 </tr>
                 </tbody>
             </table>
