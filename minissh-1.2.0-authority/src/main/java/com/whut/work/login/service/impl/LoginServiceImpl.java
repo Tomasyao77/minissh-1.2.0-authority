@@ -38,7 +38,7 @@ public class LoginServiceImpl implements ILoginService  {
 				returnMap.put("success", false);
 			}
 		}else{
-			returnMap.put("message", "该用户不存在！");
+			returnMap.put("message", "该用户不存在!");
 			returnMap.put("success", false);
 		}
 		return returnMap;

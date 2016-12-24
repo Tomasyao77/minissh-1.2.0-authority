@@ -38,6 +38,9 @@ angular.module("mainapp",[])
                         }else if(data.success == false && data.message == "密码错误"){
                             $scope.inputUsername = "";$scope.inputPassword = "";
                             alert("密码错误!");
+                        }else if(data.success == false && data.message == "该用户不存在!"){
+                            $scope.inputUsername = "";$scope.inputPassword = "";
+                            alert("该用户不存在!");
                         }
                     });
                 }
