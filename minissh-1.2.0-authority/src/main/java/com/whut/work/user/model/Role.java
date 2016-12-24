@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * Created by zouy on 2016/12/23.
  */
 @Entity
-@Table(name="rolelist")
+@Table(name="role")
 public class Role {
 
     @Id
