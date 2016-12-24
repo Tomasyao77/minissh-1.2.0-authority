@@ -20,6 +20,7 @@ angular.module("mainapp",[])
     .controller("maincontroller",function($scope,constRef){
         $scope.currentPage = 0;
         $scope.totalPage = 0;
+        $scope.listLength = 0;
         $scope.prevPage = "上一页";
         $scope.nextPage = "下一页";
         $scope.constRef = constRef;
@@ -227,8 +228,18 @@ angular.module("mainapp",[])
                 dataType:"json",
                 success:function(data){
                     console.log(data);
+                    if(data.message == "该角色已存在"){
+                        alert("该角色已存在");
+                    }else{
+                        if($scope.currentPage == $scope.totalPage
+                            && $scope.listLength == 5){
+                            $scope.currentPage = $scope.currentPage + 1;
+                            $scope.getRolePageList();
+                        }else{
+                            $scope.getRolePageList();
+                        }
+                    }
                     $scope.newRoleName = "";
-                    $scope.getRolePageList();
                 }
             });
         };
@@ -247,6 +258,10 @@ angular.module("mainapp",[])
                 success:function(data){
                     console.log(data);
                     $scope.$apply(function(){
+                        if(data.page.list.length == 0){
+                            $scope.currentPage = $scope.currentPage - 1;
+                            $scope.getRolePageList();
+                        }
                         $scope.roleList = new Array();
                         var obj = {};
                         for(var temp in data.page.list){
@@ -262,6 +277,7 @@ angular.module("mainapp",[])
                         //分页相关更新
                         $scope.currentPage = data.page.current;
                         $scope.totalPage = data.page.total;
+                        $scope.listLength = data.page.list.length;
                         if($scope.currentPage == 1){
                             for(var i1=0;i1<$(".btnid-prevpage").length;i1++){
                                 $(".btnid-prevpage").eq(i1).attr("disabled","disabled");
