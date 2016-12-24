@@ -137,6 +137,55 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="col-xs-10" style="background-color: #f7f7f7;display: none;" id="divid-rolemanage">
+            <table class="table table-hover table-striped table-bordered">
+                <caption>
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <a class="navbar-brand">角色列表</a>
+                            </div>
+                            <div>
+                                <form class="navbar-form navbar-right" role="search"  onsubmit="return ;">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="请输入角色名">
+                                    </div>
+                                    <button type="button" class="btn btn-default" ng-click="actionOnRole(constRef[2][3])">
+                                        <span class="glyphicon glyphicon-search"></span>&nbsp;<span ng-bind="constRef[2][3]"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default" ng-click="actionOnRole(constRef[2][2])">
+                                        <span class="glyphicon glyphicon-plus"></span>&nbsp;<span ng-bind="constRef[2][2]"></span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </nav>
+                </caption>
+                <thead>
+                <tr><th>角色名</th><th>创建时间</th><th>操作</th></tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in roleList">
+                    <td ng-bind="item.username"></td>
+                    <td ng-bind="item.tel"></td>
+                    <td ng-bind="item.createTime"></td>
+                    <td><button ng-click="actionOnUser(item,constRef[2][0])" type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-user"></span>&nbsp;<span ng-bind="constRef[2][0]"></span></button>
+                        <button ng-click="actionOnUser(item,constRef[2][1])" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-bind="constRef[2][1]"></span></button></td>
+                </tr>
+                </tbody>
+            </table>
+            <div><!--分页bar-->
+                <span ng-show="roleList.length > 0">
+                    <input type="button" ng-click="makePagingList(prevPage)" class="btn btn-default" value={{prevPage}} />&nbsp;
+                    <input type="text" style="text-align:center;width:50px;" ng-model="currentPage" />&nbsp;
+                    <input type="button" ng-click="makePagingList(nextPage)"  class="btn btn-default" value="{{nextPage}}" />&nbsp;
+                    <span>共&nbsp;</span>
+                    <input type="text" readonly="readonly" style="text-align:center;width:50px;border:none;" ng-model="totalPage" />
+                    <span>&nbsp;页</span>
+                </span>
+            </div>
+        </div>
         <!--<div class="clearfix visible-xs"></div>-->
     </div>
 </div>

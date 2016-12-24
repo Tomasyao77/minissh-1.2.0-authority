@@ -14,7 +14,9 @@ var offFunction = function(){
 
 //angularModuleStart
 angular.module("mainapp",[])
-    .constant('constRef',[["查看详情","分配角色","删除"],["首页","用户管理","文件管理","角色管理"]])
+    .constant('constRef',[["查看详情","分配角色","删除"],
+        ["首页","用户管理","文件管理","角色管理"],
+        ["查看详情","删除","新增角色","搜索"]])
     .controller("maincontroller",function($scope,constRef){
         $scope.currentPage = 0;
         $scope.totalPage = 0;
@@ -161,6 +163,27 @@ angular.module("mainapp",[])
                 $("#modalid-delconf").modal("toggle");
                 $scope.deleteOneItem = item;
             }
+        };
+        $scope.actionOnRole = function(obj){
+            if(obj == "新增角色"){
+                $("#modalid-newRole").modal("toggle");
+                $scope.newRoleName = "";
+            }else if(obj == "搜索"){
+
+            }
+        };
+        $scope.addRole = function(){
+            $.ajax({
+                type:"POST",
+                url:"/login/addRole",
+                data:{"roleName":$scope.newRoleName},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                    //$scope.getUserPageList();
+                }
+            });
         };
     })//main controller end
 
