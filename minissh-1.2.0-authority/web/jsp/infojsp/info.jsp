@@ -112,11 +112,11 @@
                 </tr>
                 </tbody>
             </table>
-            <div><!--分页bar-->
+            <div><!--分页bar ng-if则不能给button设置disabled因为ng-if不满足条件不会生成相应dom元素-->
                 <span ng-show="userList.length > 0">
-                    <input type="button" id="btnid-prevpage" ng-click="makePagingList(prevPage)" class="btn btn-default" value={{prevPage}} />&nbsp;
+                    <input type="button" ng-click="beforePaging(prevPage)" class="btn btn-default btnid-prevpage" value={{prevPage}} />&nbsp;
                     <input type="text" style="text-align:center;width:50px;" ng-model="currentPage" />&nbsp;
-                    <input type="button" id="btnid-nextpage" ng-click="makePagingList(nextPage)"  class="btn btn-default" value="{{nextPage}}" />&nbsp;
+                    <input type="button" ng-click="beforePaging(nextPage)"  class="btn btn-default btnid-nextpage" value="{{nextPage}}" />&nbsp;
                     <span>共&nbsp;</span>
                     <input type="text" readonly="readonly" style="text-align:center;width:50px;border:none;" ng-model="totalPage" />
                     <span>&nbsp;页</span>
@@ -167,19 +167,18 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in roleList">
-                    <td ng-bind="item.username"></td>
-                    <td ng-bind="item.tel"></td>
+                    <td ng-bind="item.name"></td>
                     <td ng-bind="item.createTime"></td>
                     <td><button ng-click="actionOnUser(item,constRef[2][0])" type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-user"></span>&nbsp;<span ng-bind="constRef[2][0]"></span></button>
                         <button ng-click="actionOnUser(item,constRef[2][1])" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-bind="constRef[2][1]"></span></button></td>
                 </tr>
                 </tbody>
             </table>
-            <div><!--分页bar-->
+            <div><!--分页bar ng-if则不能给button设置disabled因为ng-if不满足条件不会生成相应dom元素-->
                 <span ng-show="roleList.length > 0">
-                    <input type="button" ng-click="makePagingList(prevPage)" class="btn btn-default" value={{prevPage}} />&nbsp;
+                    <input type="button" ng-click="beforePaging(prevPage)" class="btn btn-default btnid-prevpage" value={{prevPage}} />&nbsp;
                     <input type="text" style="text-align:center;width:50px;" ng-model="currentPage" />&nbsp;
-                    <input type="button" ng-click="makePagingList(nextPage)"  class="btn btn-default" value="{{nextPage}}" />&nbsp;
+                    <input type="button" ng-click="beforePaging(nextPage)"  class="btn btn-default btnid-nextpage" value="{{nextPage}}" />&nbsp;
                     <span>共&nbsp;</span>
                     <input type="text" readonly="readonly" style="text-align:center;width:50px;border:none;" ng-model="totalPage" />
                     <span>&nbsp;页</span>

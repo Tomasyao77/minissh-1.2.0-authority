@@ -25,6 +25,8 @@ angular.module("mainapp",[])
         $scope.constRef = constRef;
 
         $scope.rightDiv = function (obj) {
+            $scope.currentPage = 0;
+            $scope.totalPage = 0;
             if(obj == "首页"){
                 $("#divid-homepage").show();
                 $("#divid-usermanage").hide();
@@ -63,6 +65,8 @@ angular.module("mainapp",[])
                 $("#liid-usermanage").removeClass("active");
                 $("#liid-filemanage").removeClass("active");
                 $("#liid-rolemanage").attr("class","active");
+
+                $scope.getRolePageList();
             }
         };
         $scope.deleteOne = function(item){
@@ -77,6 +81,43 @@ angular.module("mainapp",[])
                     $scope.getUserPageList();
                 }
             });
+        };
+        $scope.beforePaging = function(obj){
+            var  activeId = $(".active").attr("id");
+            if(activeId == "liid-usermanage"){
+                $scope.makePagingList(obj,"用户管理");
+            }else if(activeId == "liid-rolemanage"){
+                $scope.makePagingList(obj,"角色管理");
+            }
+        };
+        $scope.makePagingList = function(obj,str){
+            if(obj=="上一页"){
+                if($scope.currentPage == 0){
+                    //nothing to do
+                }else if($scope.currentPage == 1){
+                    alert("当前已经是第一页！");//其实并不会发生，因为disabled
+                }else{
+                    $scope.currentPage = $scope.currentPage - 1;
+                    if(str == "用户管理"){
+                        $scope.getUserPageList();
+                    }else if(str == "角色管理"){
+                        $scope.getRolePageList();
+                    }
+                }
+            }else if(obj=="下一页"){
+                if($scope.currentPage == 0){
+                    //nothing to do
+                }else if($scope.currentPage == $scope.totalPage){
+                    alert("当前已经是最后一页！");//其实并不会发生，因为disabled
+                }else{
+                    $scope.currentPage = $scope.currentPage + 1;
+                    if(str == "用户管理"){
+                        $scope.getUserPageList();
+                    }else if(str == "角色管理"){
+                        $scope.getRolePageList();
+                    }
+                }
+            }
         };
         $scope.getUserPageList = function(){
             if($scope.currentPage == 0){
@@ -118,39 +159,18 @@ angular.module("mainapp",[])
                         $scope.currentPage = data.page.current;
                         $scope.totalPage = data.page.total;
                         if($scope.currentPage == 1){
-                            $("#btnid-prevpage").attr("disabled","disabled");
+                            $(".btnid-prevpage").attr("disabled","disabled");
                         }else{
-                            $("#btnid-prevpage").removeAttr("disabled");
+                            $(".btnid-nextpage").removeAttr("disabled");
                         }
                         if($scope.currentPage == $scope.totalPage){
-                            $("#btnid-nextpage").attr("disabled","disabled");
+                            $(".btnid-nextpage").attr("disabled","disabled");
                         }else{
-                            $("#btnid-nextpage").removeAttr("disabled");
+                            $(".btnid-prevpage").removeAttr("disabled");
                         }
                     });
                 }
             });
-        };
-        $scope.makePagingList = function(obj){
-            if(obj=="上一页"){
-                if($scope.currentPage == 0){
-                    //nothing to do
-                }else if($scope.currentPage == 1){
-                    alert("当前已经是第一页！");//其实并不会发生，因为disabled
-                }else{
-                    $scope.currentPage = $scope.currentPage - 1;
-                    $scope.getUserPageList();
-                }
-            }else if(obj=="下一页"){
-                if($scope.currentPage == 0){
-                    //nothing to do
-                }else if($scope.currentPage == $scope.totalPage){
-                    alert("当前已经是最后一页！");//其实并不会发生，因为disabled
-                }else{
-                    $scope.currentPage = $scope.currentPage + 1;
-                    $scope.getUserPageList();
-                }
-            }
         };
         $scope.actionOnUser = function(item,obj){
             if(obj == "查看详情"){
@@ -183,6 +203,50 @@ angular.module("mainapp",[])
                     console.log(data);
                     $scope.newRoleName = "";
                     //$scope.getUserPageList();
+                }
+            });
+        };
+        $scope.getRolePageList = function(){
+            if($scope.currentPage == 0){
+                this.currentPage = 1;
+            }else{
+                this.currentPage = $scope.currentPage;
+            }
+            $.ajax({
+                type:"POST",
+                url:"/user_role/getRolePageList",
+                data:{"currentPage":this.currentPage,"pageSize":5},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                    $scope.$apply(function(){
+                        $scope.roleList = new Array();
+                        var obj = {};
+                        for(var temp in data.page.list){
+                            obj['id'] = data.page.list[temp].id;
+                            obj['name'] = data.page.list[temp].name;
+                            var datestr = new Date(parseInt(data.page.list[temp].createTime));
+                            var temstr = datestr.getFullYear() + "年" + (parseInt(datestr.getMonth())+1) + "月" + datestr.getDate() + "日"
+                            //+ datestr.getHours() + ":" + datestr.getMinutes() + ":" + datestr.getSeconds()
+                                ;
+                            obj['createTime'] = temstr;	//创建时间
+                            $scope.roleList.push(obj);obj = {};
+                        }
+                        //分页相关更新
+                        $scope.currentPage = data.page.current;
+                        $scope.totalPage = data.page.total;
+                        if($scope.currentPage == 1){
+                            $(".btnid-prevpage").attr("disabled","disabled");
+                        }else{
+                            $(".btnid-nextpage").removeAttr("disabled");
+                        }
+                        if($scope.currentPage == $scope.totalPage){
+                            $(".btnid-nextpage").attr("disabled","disabled");
+                        }else{
+                            $(".btnid-prevpage").removeAttr("disabled");
+                        }
+                    });
                 }
             });
         };

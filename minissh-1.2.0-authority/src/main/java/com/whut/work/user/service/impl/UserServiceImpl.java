@@ -76,4 +76,13 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    @Override
+    public Page<Role> getRolePageList(int currentPage, int pageSize) throws Exception {
+        String queryHql = "from Role r where r.id!=0";
+        String countHql = "select count(*) from Role r where r.id!=0";
+        Page<Role> returnPage = roleDao.findPage(currentPage, pageSize, queryHql, countHql);
+
+        return returnPage;
+    }
+
 }

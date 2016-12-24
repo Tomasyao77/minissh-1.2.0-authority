@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface IUserService {
 
-    //获取分页列表
+    //获取用户分页列表
 	public Page<User> getUserPageList(int currentPage, int pageSize) throws Exception;
 
     //删除
@@ -16,5 +16,8 @@ public interface IUserService {
 
     //新增角色
     public Map<String,Object> addRole(String roleName) throws Exception;
+
+    //获取用户分页列表
+    public Page<Role> getRolePageList(int currentPage, int pageSize) throws Exception;
 
 }

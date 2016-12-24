@@ -1,5 +1,7 @@
 package com.whut.work.user.controller;
 
+import com.whut.work.base.model.Page;
+import com.whut.work.user.model.Role;
 import com.whut.work.user.model.User;
 import com.whut.work.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,24 @@ public class UserCtrl {
             returnMap.put("success", map.get("success"));
         } catch (Exception e) {
             returnMap.put("message", "异常：新增角色失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value="/getRolePageList",method= RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getRolePageList(HttpServletRequest request,int currentPage,int pageSize){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            Page<Role> rolePage = userService.getRolePageList(currentPage, pageSize);
+
+            returnMap.put("page", rolePage);
+            returnMap.put("success", true);
+        } catch (Exception e) {
+            returnMap.put("message", "异常：获取失败!");
             returnMap.put("success", false);
             e.printStackTrace();
         }
