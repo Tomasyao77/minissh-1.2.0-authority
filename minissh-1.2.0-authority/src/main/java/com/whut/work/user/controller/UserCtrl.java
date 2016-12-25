@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,6 +70,24 @@ public class UserCtrl {
 
         try {
             Page<Role> rolePage = userService.getRolePageListForSearch(currentPage, pageSize,blurRoleName);
+
+            returnMap.put("page", rolePage);
+            returnMap.put("success", true);
+        } catch (Exception e) {
+            returnMap.put("message", "异常：获取失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value="/getSimpleRolePageList",method= RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getSimpleRolePageList(HttpServletRequest request){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            List<Role> rolePage = userService.getSimpleRolePageList();
 
             returnMap.put("page", rolePage);
             returnMap.put("success", true);

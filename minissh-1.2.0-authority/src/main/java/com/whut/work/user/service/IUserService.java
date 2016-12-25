@@ -4,6 +4,7 @@ import com.whut.work.base.model.Page;
 import com.whut.work.user.model.Role;
 import com.whut.work.user.model.User;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IUserService {
@@ -19,6 +20,9 @@ public interface IUserService {
 
     //获取角色分页列表
     public Page<Role> getRolePageList(int currentPage, int pageSize) throws Exception;
+
+    //获取只含简明信息的角色列表(全部角色)
+    public List<Role> getSimpleRolePageList() throws Exception;
 
     //获取角色分页列表ForSearch
     public Page<Role> getRolePageListForSearch(int currentPage, int pageSize,String blurRoleName) throws Exception;

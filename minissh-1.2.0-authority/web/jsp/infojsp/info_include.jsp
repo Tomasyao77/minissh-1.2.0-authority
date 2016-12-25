@@ -96,6 +96,47 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- 为用户分配角色  模态弹出框 -->
+<div class="modal fade" id="modalid-roleForUser">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <!--  >模态弹出窗标题<  -->
+                <h4 class="modal-title">分配角色</h4>
+            </div>
+            <div class="modal-body">
+                <!--  >模态弹出窗主体内容<  -->
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="username" class="col-sm-2 col-sm-offset-2 control-label">用户名</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="username" ng-model="userViewInfo.username" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 col-sm-offset-2 control-label">角色</label>
+                        <div class="col-sm-6">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="inlineCheckbox1" value="option1"> 选项 1
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="inlineCheckbox2" value="option2"> 选项 2
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="inlineCheckbox3" value="option3"> 选项 3
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- 查看角色信息  模态弹出框 -->
 <div class="modal fade" id="modalid-viewRoleInfo">
     <div class="modal-dialog">

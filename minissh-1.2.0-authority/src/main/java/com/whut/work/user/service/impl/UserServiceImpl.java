@@ -12,6 +12,7 @@ import com.whut.work.user.service.IUserService;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -81,6 +82,14 @@ public class UserServiceImpl implements IUserService {
         String queryHql = "from Role r where r.id!=0";
         String countHql = "select count(*) from Role r where r.id!=0";
         Page<Role> returnPage = roleDao.findPage(currentPage, pageSize, queryHql, countHql);
+
+        return returnPage;
+    }
+
+    @Override
+    public List<Role> getSimpleRolePageList() throws Exception {
+        String queryHql = "select new com.whut.work.user.vo.RoleVo(r.id,r.name) from Role r where r.id!=0";
+        List<Role> returnPage = roleDao.findList(queryHql);
 
         return returnPage;
     }
