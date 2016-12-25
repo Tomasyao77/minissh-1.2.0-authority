@@ -149,7 +149,7 @@
                             <div>
                                 <form class="navbar-form navbar-right" role="search"  onsubmit="return ;">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="请输入角色名">
+                                        <input type="text" class="form-control" placeholder="请输入角色名" ng-model="searchRoleName">
                                     </div>
                                     <button type="button" class="btn btn-default" ng-click="actionOnRole(this,constRef[2][3])">
                                         <span class="glyphicon glyphicon-search"></span>&nbsp;<span ng-bind="constRef[2][3]"></span>

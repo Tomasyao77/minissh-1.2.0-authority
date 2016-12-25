@@ -86,6 +86,15 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public Page<Role> getRolePageListForSearch(int currentPage, int pageSize,String blurRoleName) throws Exception {
+        String queryHql = "from Role r where r.id!=0 and r.name like '%"+blurRoleName+"%'";
+        String countHql = "select count(*) from Role r where r.id!=0 and r.name like '%"+blurRoleName+"%'";
+        Page<Role> returnPage = roleDao.findPage(currentPage, pageSize, queryHql, countHql);
+
+        return returnPage;
+    }
+
+    @Override
     public Map<String, Object> deleteOneRole(Integer id) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 

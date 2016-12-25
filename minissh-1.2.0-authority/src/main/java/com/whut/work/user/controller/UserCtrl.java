@@ -46,11 +46,29 @@ public class UserCtrl {
 
     @RequestMapping(value="/getRolePageList",method= RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> getRolePageList(HttpServletRequest request,int currentPage,int pageSize){
+    public Map<String,Object> getRolePageList(HttpServletRequest request,int currentPage,int pageSize,String blurRoleName ){
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
         try {
             Page<Role> rolePage = userService.getRolePageList(currentPage, pageSize);
+
+            returnMap.put("page", rolePage);
+            returnMap.put("success", true);
+        } catch (Exception e) {
+            returnMap.put("message", "异常：获取失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value="/getRolePageListForSearch",method= RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getRolePageListForSearch(HttpServletRequest request,int currentPage,int pageSize,String blurRoleName ){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            Page<Role> rolePage = userService.getRolePageListForSearch(currentPage, pageSize,blurRoleName);
 
             returnMap.put("page", rolePage);
             returnMap.put("success", true);
@@ -85,7 +103,7 @@ public class UserCtrl {
     public Map<String,Object> editOneRole(HttpServletRequest request,Integer id,String roleName){
         Map<String,Object> returnMap = new HashMap<String,Object>();
         try {
-            Map<String,Object> map = userService.editOneRole(id,roleName);
+            Map<String,Object> map = userService.editOneRole(id, roleName);
             //获取role实体
             Object object = map.get("value");
             returnMap.put("value", object);

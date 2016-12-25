@@ -20,6 +20,9 @@ public interface IUserService {
     //获取角色分页列表
     public Page<Role> getRolePageList(int currentPage, int pageSize) throws Exception;
 
+    //获取角色分页列表ForSearch
+    public Page<Role> getRolePageListForSearch(int currentPage, int pageSize,String blurRoleName) throws Exception;
+
     //删除角色
     public Map<String,Object> deleteOneRole(Integer id) throws Exception;
 

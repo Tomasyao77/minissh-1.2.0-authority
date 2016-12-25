@@ -24,6 +24,7 @@ angular.module("mainapp",[])
         $scope.prevPage = "上一页";
         $scope.nextPage = "下一页";
         $scope.constRef = constRef;
+        $scope.searchRoleName = "";
 
         $scope.rightDiv = function (obj) {
             $scope.currentPage = 0;
@@ -67,6 +68,8 @@ angular.module("mainapp",[])
                 $("#liid-filemanage").removeClass("active");
                 $("#liid-rolemanage").attr("class","active");
 
+                $scope.searchRoleName = "";
+                $scope.searchRoleNameUrlSufix = "";
                 $scope.getRolePageList();
             }
         };
@@ -202,7 +205,13 @@ angular.module("mainapp",[])
                 $scope.newRoleName = "";
                 $("#modalid-newRole").modal("toggle");
             }else if(obj == "搜索"){
-
+                if($scope.searchRoleName != null && $scope.searchRoleName != ""){
+                    $scope.currentPage = 1;
+                    $scope.searchRoleNameUrlSufix = "ForSearch";
+                    $scope.getRolePageList();
+                }else{
+                    //console.log($scope.searchRoleName);
+                }
             }else if(obj == "查看详情"){
                 $("#btnid-roleeditsubmit").hide();
                 $("#btnid-roleeditcancel").hide();
@@ -281,14 +290,9 @@ angular.module("mainapp",[])
                             }else if($scope.currentPage == $scope.totalPage && $scope.listLength < 5){
                                 $scope.getRolePageList();
                             }else if($scope.currentPage < $scope.totalPage){
+                                $scope.getRolePageList();
                                 $scope.currentPage = $scope.totalPage;
-                                //$scope.getRolePageList();
-                                if($scope.currentPage == $scope.totalPage && $scope.listLength == 5){
-                                    $scope.currentPage = $scope.currentPage + 1;
-                                    $scope.getRolePageList();
-                                }else if($scope.currentPage == $scope.totalPage && $scope.listLength < 5){
-                                    $scope.getRolePageList();
-                                }
+                                $scope.getRolePageList();
                             }
                         };
                         tempFunc();
@@ -305,16 +309,18 @@ angular.module("mainapp",[])
             }
             $.ajax({
                 type:"POST",
-                url:"/user_role/getRolePageList",
-                data:{"currentPage":this.currentPage,"pageSize":5},
+                url:"/user_role/getRolePageList"+$scope.searchRoleNameUrlSufix,
+                data:{"currentPage":this.currentPage,"pageSize":5,"blurRoleName":$scope.searchRoleName},
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"json",
                 success:function(data){
                     console.log(data);
                     $scope.$apply(function(){
-                        if(data.page.list.length == 0){
+                        if(data.page.list.length == 0 && $scope.currentPage > 1){
                             $scope.currentPage = $scope.currentPage - 1;
                             $scope.getRolePageList();
+                        }else if(data.page.list.length == 0 && $scope.currentPage == 1){
+                            //此处用作提醒，完全没数据便不做操作，其实可删除
                         }
                         $scope.roleList = new Array();
                         var obj = {};
