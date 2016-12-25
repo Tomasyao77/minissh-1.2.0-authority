@@ -206,6 +206,7 @@ angular.module("mainapp",[])
         $scope.roleForUserCheckBoxs = function($event,item){//$event类似于普通js的this对象
             //console.log(item.id);
             //console.log($event.target.checked);//被点击的checkbox是否被选中
+            var obj = {};
             if($event.target.checked == true){
                 $scope.checkBoxArray.push(item.id);
             }else{
@@ -313,6 +314,25 @@ angular.module("mainapp",[])
                         tempFunc();
                     }
                     $scope.newRoleName = "";
+                }
+            });
+        };
+        $scope.roleForOneUser = function(){
+            this.roleArray = "";
+            for(var index in $scope.checkBoxArray){
+                this.roleArray += $scope.checkBoxArray[index].toString();
+            }
+            console.log(this.roleArray);
+            $.ajax({
+                type:"POST",
+                url:"/user_role/roleForOneUser",
+                data:{"id":$scope.userViewInfo.id,"roleList":this.roleArray},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                    $scope.$apply(function(){
+                    });
                 }
             });
         };

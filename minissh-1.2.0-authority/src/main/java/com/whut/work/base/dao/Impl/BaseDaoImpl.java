@@ -19,7 +19,8 @@ import com.whut.work.base.vo.Parameter;
 //@Component	//感觉不配这个也行 //还是先不配这个毕竟其它dao继承此dao
 public class BaseDaoImpl<T> implements IBaseDao<T> {
 
-	
+    private int BATCH_MAX_ROW = 5;
+
 	private SessionFactory sessionFactory;	//使用spring配合hibernateTemplate来管理Transaction（结果不理想）
 	//@Autowired	//干脆不用hibernateTemplate来操作了，事务处理时遇到太多问题
 	//private HibernateTemplate hibernateTemplate;
@@ -39,6 +40,33 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
         Session session = this.getSession();
         session.beginTransaction();
         session.save(entity);
+        session.getTransaction().commit();
+    }
+
+    @Override
+    public int batchSave(List<T> list) throws Exception {
+        Session session = this.getSession();
+        session.beginTransaction();
+        for (int i = 0; i < list.size(); ++i) {
+            session.save(list.get(i));
+            if (i % BATCH_MAX_ROW == 0) {
+                session.flush();
+                session.clear();
+            }
+        }
+        session.flush();
+        session.clear();
+        session.getTransaction().commit();
+        return list.size();
+    }
+
+    @Override
+    public void deleteAll(Collection entities) throws Exception {
+        Session session = this.getSession();
+        session.beginTransaction();
+        for (Object entity : entities) {
+            session.delete(entity);
+        }
         session.getTransaction().commit();
     }
 

@@ -1,7 +1,9 @@
 package com.whut.work.user.service.impl;
 
 import com.whut.work.user.dao.impl.RoleDaoImpl;
+import com.whut.work.user.dao.impl.UserRoleDaoImpl;
 import com.whut.work.user.model.Role;
+import com.whut.work.user.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,10 +12,8 @@ import com.whut.work.user.dao.impl.UserDaoImpl;
 import com.whut.work.user.model.User;
 import com.whut.work.user.service.IUserService;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Component
 public class UserServiceImpl implements IUserService {
@@ -22,6 +22,9 @@ public class UserServiceImpl implements IUserService {
 	private UserDaoImpl userDao;
     @Autowired
     private RoleDaoImpl roleDao;
+    @Autowired
+    private UserRoleDaoImpl urDao;
+
 
 	@Override
 	public Page<User> getUserPageList(int currentPage, int pageSize) throws Exception {
@@ -57,8 +60,29 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Map<String, Object> roleForOneUser(Integer id, String[] roleList) throws Exception {
-        return null;
+    public Map<String, Object> roleForOneUser(Integer id, String roleList) throws Exception {
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+        String hql = "from UserRole ur where ur.userId='"+id+"'";
+
+        List<UserRole> urFromJspList = new ArrayList<UserRole>();
+        for(int i=0;i<roleList.length();i++){
+            UserRole ur = new UserRole();
+            ur.setUserId(id);
+            ur.setRoleId(Integer.parseInt(roleList.substring(i,i+1)));
+            urFromJspList.add(ur);
+        }
+
+        if(urDao.findList(hql) == null){
+            urDao.batchSave(urFromJspList);
+        }else {
+            List<UserRole> urFromTableList = urDao.findList(hql);
+            urDao.deleteAll(urFromTableList);
+            urDao.batchSave(urFromJspList);
+        }
+
+        returnMap.put("message", "为用户分配角色成功");
+        returnMap.put("success", true);
+        return returnMap;
     }
 
     @Override

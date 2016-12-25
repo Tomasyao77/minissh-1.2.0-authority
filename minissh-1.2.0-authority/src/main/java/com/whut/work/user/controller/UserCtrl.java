@@ -156,17 +156,15 @@ public class UserCtrl {
 
     @RequestMapping(value="/roleForOneUser",method= RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> roleForOneUser(HttpServletRequest request,Integer id,String[] roleList){
+    public Map<String,Object> roleForOneUser(HttpServletRequest request,Integer id,String roleList){
         Map<String,Object> returnMap = new HashMap<String,Object>();
+
         try {
-            Map<String,Object> map = userService.roleForOneUser(id,roleList);
-            //获取role实体
-            Object object = map.get("value");
-            returnMap.put("value", object);
+            Map<String,Object> map = userService.roleForOneUser(id, roleList);
             returnMap.put("message", map.get("message"));
             returnMap.put("success", map.get("success"));
         } catch (Exception e) {
-            returnMap.put("message", "异常：编辑角色失败!");
+            returnMap.put("message", "异常：为用户分配角色失败!");
             returnMap.put("success", false);
             e.printStackTrace();
         }
