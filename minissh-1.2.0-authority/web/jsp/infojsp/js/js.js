@@ -86,7 +86,7 @@ angular.module("mainapp",[])
                 }
             });
         };
-        $scope.beforePaging = function(obj){
+        $scope.beforePaging = function(obj){//different tables
             var  activeId = $(".active").attr("id");
             if(activeId == "liid-usermanage"){
                 $scope.makePagingList(obj,"用户管理");
@@ -190,15 +190,30 @@ angular.module("mainapp",[])
         };
         $scope.actionOnUser = function(item,obj){
             if(obj == "查看详情"){
-                $("#modalid-viewInfo").modal("toggle");
                 $scope.userViewInfo = item;
+                $("#modalid-viewInfo").modal("toggle");
                 //console.log($scope.userViewInfo);
             }else if(obj == "分配角色"){
-
+                $scope.userViewInfo = item;
+                $scope.getSimpleRolePageList();
+                $scope.checkBoxArray = new Array();
+                $("#modalid-roleForUser").modal("toggle");
             }else if(obj == "删除"){
                 $scope.deleteOneUserItem = item;
                 $("#modalid-delUserConf").modal("toggle");
             }
+        };
+        $scope.roleForUserCheckBoxs = function($event,item){//$event类似于普通js的this对象
+            //console.log(item.id);
+            //console.log($event.target.checked);//被点击的checkbox是否被选中
+            if($event.target.checked == true){
+                $scope.checkBoxArray.push(item.id);
+            }else{
+                $scope.checkBoxArray.splice(
+                    $scope.checkBoxArray.indexOf(item.id),1
+                );
+            }
+            console.log($scope.checkBoxArray);
         };
         $scope.actionOnRole = function(item,obj){
             if(obj == "新增角色"){
@@ -298,6 +313,27 @@ angular.module("mainapp",[])
                         tempFunc();
                     }
                     $scope.newRoleName = "";
+                }
+            });
+        };
+        $scope.getSimpleRolePageList = function(){
+            $.ajax({
+                type:"POST",
+                url:"/user_role/getSimpleRolePageList",
+                data:{},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                    $scope.$apply(function(){
+                        $scope.roleSimpleList = new Array();
+                        var obj = {};
+                        for(var temp in data.list){
+                            obj['id'] = data.list[temp].id;
+                            obj['roleName'] = data.list[temp].roleName;
+                            $scope.roleSimpleList.push(obj);obj = {};
+                        }
+                    });
                 }
             });
         };

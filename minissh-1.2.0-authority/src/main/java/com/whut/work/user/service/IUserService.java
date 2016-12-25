@@ -15,6 +15,9 @@ public interface IUserService {
     //删除用户
     public Map<String,Object> deleteOneUser(Integer id) throws Exception;
 
+    //为用户分配角色
+    public Map<String,Object> roleForOneUser(Integer id,String[] roleList) throws Exception;
+
     //新增角色
     public Map<String,Object> addRole(String roleName) throws Exception;
 

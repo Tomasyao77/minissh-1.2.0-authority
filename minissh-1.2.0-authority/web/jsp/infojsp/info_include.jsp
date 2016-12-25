@@ -117,21 +117,16 @@
                     <div class="form-group">
                         <label for="email" class="col-sm-2 col-sm-offset-2 control-label">角色</label>
                         <div class="col-sm-6">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="inlineCheckbox1" value="option1"> 选项 1
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="inlineCheckbox2" value="option2"> 选项 2
-                            </label>
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="inlineCheckbox3" value="option3"> 选项 3
-                            </label>
+                            <div ng-repeat="item in roleSimpleList">
+                                <label class="checkbox-inline"><input type="checkbox" ng-click="roleForUserCheckBoxs($event,item)"><span ng-bind="item.roleName"></span></label>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="">提交</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

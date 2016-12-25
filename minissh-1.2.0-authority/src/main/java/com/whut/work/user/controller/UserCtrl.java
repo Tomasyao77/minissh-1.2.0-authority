@@ -87,9 +87,27 @@ public class UserCtrl {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
         try {
-            List<Role> rolePage = userService.getSimpleRolePageList();
+            List<Role> roleList = userService.getSimpleRolePageList();
 
-            returnMap.put("page", rolePage);
+            returnMap.put("list", roleList);
+            returnMap.put("success", true);
+        } catch (Exception e) {
+            returnMap.put("message", "异常：获取失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value="/getRoleBelongToUser",method= RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getRoleBelongToUser(HttpServletRequest request,Integer id){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            List<Role> roleList = userService.getSimpleRolePageList();
+
+            returnMap.put("list", roleList);
             returnMap.put("success", true);
         } catch (Exception e) {
             returnMap.put("message", "异常：获取失败!");
@@ -123,6 +141,25 @@ public class UserCtrl {
         Map<String,Object> returnMap = new HashMap<String,Object>();
         try {
             Map<String,Object> map = userService.editOneRole(id, roleName);
+            //获取role实体
+            Object object = map.get("value");
+            returnMap.put("value", object);
+            returnMap.put("message", map.get("message"));
+            returnMap.put("success", map.get("success"));
+        } catch (Exception e) {
+            returnMap.put("message", "异常：编辑角色失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value="/roleForOneUser",method= RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> roleForOneUser(HttpServletRequest request,Integer id,String[] roleList){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+        try {
+            Map<String,Object> map = userService.roleForOneUser(id,roleList);
             //获取role实体
             Object object = map.get("value");
             returnMap.put("value", object);

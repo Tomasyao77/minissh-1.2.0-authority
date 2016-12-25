@@ -57,6 +57,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public Map<String, Object> roleForOneUser(Integer id, String[] roleList) throws Exception {
+        return null;
+    }
+
+    @Override
     public Map<String,Object> addRole(String roleName) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
