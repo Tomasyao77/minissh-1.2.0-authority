@@ -96,6 +96,42 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- 查看角色信息  模态弹出框 -->
+<div class="modal fade" id="modalid-viewRoleInfo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <!--  >模态弹出窗标题<  -->
+                <h4 class="modal-title">角色信息</h4>
+            </div>
+            <div class="modal-body">
+                <!--  >模态弹出窗主体内容<  -->
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="inputid-rolename" class="col-sm-2 col-sm-offset-2 control-label">角色名</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputid-rolename" ng-model="roleViewInfo.name" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputid-rolecreateTime" class="col-sm-2 col-sm-offset-2 control-label">创建时间</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="inputid-rolecreateTime" ng-model="roleViewInfo.createTime" disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnid-roleeditsubmit" ng-click="editRole(constRef[2][6])" style="display: none;" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;<span ng-bind="constRef[2][6]"></span></button>
+                <button type="button" id="btnid-roleeditcancel" ng-click="editRole(constRef[2][5])" style="display: none;" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-bind="constRef[2][5]"></span></button>
+                <button type="button" id="btnid-roleedit" ng-click="editRole(constRef[2][4])" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>&nbsp;<span ng-bind="constRef[2][4]"></span></button>
+                <button type="button" id="btnid-roleeditok" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>&nbsp;OK</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- 新增角色  模态弹出框 -->
 <div class="modal fade" id="modalid-newRole">
     <div class="modal-dialog">

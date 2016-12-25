@@ -16,7 +16,7 @@ var offFunction = function(){
 angular.module("mainapp",[])
     .constant('constRef',[["查看详情","分配角色","删除"],//user table
         ["首页","用户管理","文件管理","角色管理"],//left nav bar
-        ["查看详情","删除","新增角色","搜索"]])// role table
+        ["查看详情","删除","新增角色","搜索","编辑","取消","提交"]])// role table
     .controller("maincontroller",function($scope,constRef){
         $scope.currentPage = 0;
         $scope.totalPage = 0;
@@ -142,6 +142,10 @@ angular.module("mainapp",[])
                      * 用$http服务的ajax获取可以直接修改数据，因为这个服务是在$scope上下文中的，但是jquery方法不是
                      */
                     $scope.$apply(function(){
+                        if(data.page.list.length == 0){
+                            $scope.currentPage = $scope.currentPage - 1;
+                            $scope.getUserPageList();
+                        }
                         $scope.userList = new Array();
                         var obj = {};
                         for(var temp in data.page.list){
@@ -185,7 +189,7 @@ angular.module("mainapp",[])
             if(obj == "查看详情"){
                 $("#modalid-viewInfo").modal("toggle");
                 $scope.userViewInfo = item;
-                console.log($scope.userViewInfo);
+                //console.log($scope.userViewInfo);
             }else if(obj == "分配角色"){
 
             }else if(obj == "删除"){
@@ -200,10 +204,49 @@ angular.module("mainapp",[])
             }else if(obj == "搜索"){
 
             }else if(obj == "查看详情"){
-
+                $("#btnid-roleeditsubmit").hide();
+                $("#btnid-roleeditcancel").hide();
+                $("#btnid-roleedit").show();
+                $("#btnid-roleeditok").show();
+                $("#inputid-rolename").attr("disabled","disabled");
+                $("#modalid-viewRoleInfo").modal("toggle");
+                $scope.roleViewInfo = item;
+                //console.log($scope.roleViewInfo);
             }else if(obj == "删除"){
                 $scope.deleteOneRoleItem = item;
                 $("#modalid-delRoleConf").modal("toggle");
+            }
+        };
+        $scope.editRole = function(obj){
+            if(obj == "编辑"){
+                $("#inputid-rolename").removeAttr("disabled");
+                $("#btnid-roleeditsubmit").show();
+                $("#btnid-roleeditcancel").show();
+                $("#btnid-roleedit").hide();
+                $("#btnid-roleeditok").hide();
+            }else if(obj == "取消"){
+                $scope.getRolePageList();
+            }else if(obj == "提交"){
+                $.ajax({
+                    type:"POST",
+                    url:"/user_role/editOneRole",
+                    data:{"id":$scope.roleViewInfo.id,"roleName":$scope.roleViewInfo.name},
+                    contentType:"application/x-www-form-urlencoded",
+                    dataType:"json",
+                    success:function(data){
+                        //console.log(data);
+                        if(data.message == "该角色已存在"){
+                            alert("该角色已存在,请重新输入");
+                            $scope.getRolePageList();
+                        }else{
+                            alert("编辑角色成功");
+                            $scope.getRolePageList();
+                        }
+                    },
+                    fail:function(){
+                        alert("修改失败");
+                    }
+                });
             }
         };
         $scope.deleteOneRole = function(item){

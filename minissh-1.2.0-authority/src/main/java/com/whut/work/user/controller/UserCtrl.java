@@ -29,7 +29,6 @@ public class UserCtrl {
     @ResponseBody
     public Map<String,Object> addRole(HttpServletRequest request,String roleName){
         Map<String,Object> returnMap = new HashMap<String,Object>();
-        System.out.println(roleName);
         try {
             Map<String,Object> map = userService.addRole(roleName);
             //获取role实体
@@ -75,6 +74,25 @@ public class UserCtrl {
             returnMap.put("success", map.get("success"));
         } catch (Exception e) {
             returnMap.put("message", "异常：操作失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value="/editOneRole",method= RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> editOneRole(HttpServletRequest request,Integer id,String roleName){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+        try {
+            Map<String,Object> map = userService.editOneRole(id,roleName);
+            //获取role实体
+            Object object = map.get("value");
+            returnMap.put("value", object);
+            returnMap.put("message", map.get("message"));
+            returnMap.put("success", map.get("success"));
+        } catch (Exception e) {
+            returnMap.put("message", "异常：编辑角色失败!");
             returnMap.put("success", false);
             e.printStackTrace();
         }

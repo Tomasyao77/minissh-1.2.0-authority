@@ -59,7 +59,7 @@ public class UserServiceImpl implements IUserService {
     public Map<String,Object> addRole(String roleName) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
-        String hql = "from Role f where f.name='"+roleName+"'";
+        String hql = "from Role r where r.name='"+roleName+"'";
         Role role = new Role();
         if(roleDao.findOne(hql) != null){
             returnMap.put("message", "该角色已存在");
@@ -107,4 +107,37 @@ public class UserServiceImpl implements IUserService {
             return returnMap;
         }
     }
+
+    @Override
+    public Map<String, Object> editOneRole(Integer id, String roleName) throws Exception {
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        String hqlfirst = "from Role r where r.name='"+roleName+"'";
+        String hql = "from Role r where r.id='"+id+"'";
+        Role role = new Role();
+
+        try {
+            role = roleDao.findOne(hql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(role != null){
+            if(roleDao.findOne(hqlfirst) != null){
+                returnMap.put("message", "该角色已存在");
+                returnMap.put("success", false);
+                return returnMap;
+            }
+            role.setName(roleName);
+            role.setCreateTime(new Date());
+            roleDao.update(role);
+            returnMap.put("value", role);
+            returnMap.put("message", "修改角色成功");
+            returnMap.put("success", true);
+        }else{
+            returnMap.put("message", "异常:编辑失败");
+            returnMap.put("success", false);
+        }
+        return returnMap;
+    }
+
 }
