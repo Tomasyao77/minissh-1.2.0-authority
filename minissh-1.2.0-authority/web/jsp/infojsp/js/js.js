@@ -274,13 +274,18 @@ angular.module("mainapp",[])
                     if(data.message == "该角色已存在"){
                         alert("该角色已存在");
                     }else{
-                        if($scope.currentPage == $scope.totalPage
-                            && $scope.listLength == 5){
-                            $scope.currentPage = $scope.currentPage + 1;
-                            $scope.getRolePageList();
-                        }else{
-                            $scope.getRolePageList();
-                        }
+                        var tempFunc = function(){//简单的递归操作
+                            if($scope.currentPage == $scope.totalPage && $scope.listLength == 5){
+                                $scope.currentPage = $scope.currentPage + 1;
+                                $scope.getRolePageList();
+                            }else if($scope.currentPage == $scope.totalPage && $scope.listLength < 5){
+                                $scope.getRolePageList();
+                            }else if($scope.currentPage < $scope.totalPage){
+                                $scope.currentPage = $scope.totalPage;
+                                tempFunc();
+                            }
+                        };
+                        tempFunc();
                     }
                     $scope.newRoleName = "";
                 }
