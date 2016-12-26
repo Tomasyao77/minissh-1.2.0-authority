@@ -12,6 +12,9 @@ public interface IUserService {
     //获取用户分页列表
 	public Page<User> getUserPageList(int currentPage, int pageSize) throws Exception;
 
+    //获取角色分页列表ForSearch
+    public Page<User> getUserPageListForSearch(int currentPage, int pageSize,String blurUserName) throws Exception;
+
     //删除用户
     public Map<String,Object> deleteOneUser(Integer id) throws Exception;
 

@@ -14,7 +14,7 @@ var offFunction = function(){
 
 //angularModuleStart
 angular.module("mainapp",[])
-    .constant('constRef',[["查看详情","分配角色","删除"],//user table
+    .constant('constRef',[["查看详情","分配角色","删除","搜索"],//user table
         ["首页","用户管理","文件管理","角色管理"],//left nav bar
         ["查看详情","删除","新增角色","搜索","编辑","取消","提交"]])// role table
     .controller("maincontroller",function($scope,constRef){
@@ -25,6 +25,8 @@ angular.module("mainapp",[])
         $scope.nextPage = "下一页";
         $scope.constRef = constRef;
         $scope.searchRoleName = "";
+        $scope.searchUserName = "";
+        $scope.justForModalInfomation = "";
 
         $scope.rightDiv = function (obj) {
             $scope.currentPage = 0;
@@ -48,6 +50,8 @@ angular.module("mainapp",[])
                 $("#liid-filemanage").removeClass("active");
                 $("#liid-rolemanage").removeClass("active");
 
+                $scope.searchUserName = "";
+                $scope.searchUserNameUrlSufix = "";
                 $scope.getUserPageList();
             }else if(obj == "文件管理"){
                 $("#divid-homepage").hide();
@@ -131,8 +135,8 @@ angular.module("mainapp",[])
             }
             $.ajax({
                 type:"POST",
-                url:"/login/getUserPageList",
-                data:{"currentPage":this.currentPage,"pageSize":5},
+                url:"/login/getUserPageList"+$scope.searchUserNameUrlSufix,
+                data:{"currentPage":this.currentPage,"pageSize":5,"blurUserName":$scope.searchUserName},
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"json",
                 success:function(data){
@@ -201,6 +205,14 @@ angular.module("mainapp",[])
             }else if(obj == "删除"){
                 $scope.deleteOneUserItem = item;
                 $("#modalid-delUserConf").modal("toggle");
+            }else if(obj == "搜索"){
+                if($scope.searchUserName != null && $scope.searchUserName != ""){
+                    $scope.currentPage = 1;
+                    $scope.searchUserNameUrlSufix = "ForSearch";
+                    $scope.getUserPageList();
+                }else{
+                    //console.log($scope.searchRoleName);
+                }
             }
         };
         $scope.roleForUserCheckBoxs = function($event,item){//$event类似于普通js的this对象
@@ -217,6 +229,7 @@ angular.module("mainapp",[])
             console.log($scope.checkBoxArray);
         };
         $scope.actionOnRole = function(item,obj){
+            //item有的对应传入的this只是为了凑够参数
             if(obj == "新增角色"){
                 $scope.newRoleName = "";
                 $("#modalid-newRole").modal("toggle");
@@ -288,34 +301,39 @@ angular.module("mainapp",[])
             });
         };
         $scope.addRole = function(){
-            $.ajax({
-                type:"POST",
-                url:"/user_role/addRole",
-                data:{"roleName":$scope.newRoleName},
-                contentType:"application/x-www-form-urlencoded",
-                dataType:"json",
-                success:function(data){
-                    console.log(data);
-                    if(data.message == "该角色已存在"){
-                        alert("该角色已存在");
-                    }else{
-                        var tempFunc = function(){
-                            if($scope.currentPage == $scope.totalPage && $scope.listLength == 5){
-                                $scope.currentPage = $scope.currentPage + 1;
-                                $scope.getRolePageList();
-                            }else if($scope.currentPage == $scope.totalPage && $scope.listLength < 5){
-                                $scope.getRolePageList();
-                            }else if($scope.currentPage < $scope.totalPage){
-                                $scope.getRolePageList();
-                                $scope.currentPage = $scope.totalPage;
-                                $scope.getRolePageList();
-                            }
-                        };
-                        tempFunc();
+            if($scope.newRoleName != null &&$scope.newRoleName != ""){
+                $.ajax({
+                    type:"POST",
+                    url:"/user_role/addRole",
+                    data:{"roleName":$scope.newRoleName},
+                    contentType:"application/x-www-form-urlencoded",
+                    dataType:"json",
+                    success:function(data){
+                        console.log(data);
+                        if(data.message == "该角色已存在"){
+                            alert("该角色已存在");
+                        }else{
+                            var tempFunc = function(){
+                                if($scope.currentPage == $scope.totalPage && $scope.listLength == 5){
+                                    $scope.currentPage = $scope.currentPage + 1;
+                                    $scope.getRolePageList();
+                                }else if($scope.currentPage == $scope.totalPage && $scope.listLength < 5){
+                                    $scope.getRolePageList();
+                                }else if($scope.currentPage < $scope.totalPage){
+                                    $scope.getRolePageList();
+                                    $scope.currentPage = $scope.totalPage;
+                                    $scope.getRolePageList();
+                                }
+                            };
+                            tempFunc();
+                        }
+                        $scope.newRoleName = "";
                     }
-                    $scope.newRoleName = "";
-                }
-            });
+                });
+            }else{
+                $scope.justForModalInfomation = "角色名不能为空";
+                $("#modalid-toastInfo").modal("toggle");
+            }
         };
         $scope.roleForOneUser = function(){
             this.roleArray = "";

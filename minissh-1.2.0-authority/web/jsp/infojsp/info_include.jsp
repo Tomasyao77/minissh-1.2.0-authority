@@ -186,12 +186,12 @@
                             <input type="text" class="form-control" name="username" ng-model="newRoleName">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <%--<div class="form-group">
                         <label for="email" class="col-sm-2 col-sm-offset-2 control-label">权限</label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" name="authority">
                         </div>
-                    </div>
+                    </div>--%>
                 </form>
             </div>
             <div class="modal-footer">
@@ -254,6 +254,24 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal" onclick="offFunction()">确定</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 提示信息 模态弹出框-->
+<div class="modal fade" id="modalid-toastInfo">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">提示信息</h4>
+            </div>
+            <div class="modal-body">
+                <p><span ng-bind="justForModalInfomation"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -36,6 +36,15 @@ public class UserServiceImpl implements IUserService {
 	}
 
     @Override
+    public Page<User> getUserPageListForSearch(int currentPage, int pageSize,String blurUserName) throws Exception {
+        String queryHql = " from User u where u.id!=0 and u.username like '%"+blurUserName+"%' ";
+        String countHql = " select count(*) from User u where u.id!=0 and u.username like '%"+blurUserName+"%' ";
+        Page<User> returnPage = userDao.findPage(currentPage, pageSize, queryHql, countHql);
+
+        return returnPage;
+    }
+
+    @Override
     public Map<String, Object> deleteOneUser(Integer id) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 

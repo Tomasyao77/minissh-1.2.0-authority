@@ -85,7 +85,7 @@
                 <%--这里a标签不能加href属性，否则会相对首页进行#跳转，但在静态页面无影响--%>
                 <li class="active" id="liid-homepage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][0])" ng-bind="constRef[1][0]"></a></li>
                 <li id="liid-usermanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][1])" ng-bind="constRef[1][1]"></a></li>
-                <li id="liid-filemanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][2])" ng-bind="constRef[1][2]"></a></li>
+                <%--<li id="liid-filemanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][2])" ng-bind="constRef[1][2]"></a></li>--%>
                 <li id="liid-rolemanage"><a style="cursor: pointer;" ng-click="rightDiv(constRef[1][3])" ng-bind="constRef[1][3]"></a></li>
             </ul>
         </div>
@@ -97,7 +97,25 @@
 
         <div class="col-xs-10" style="background-color: #f7f7f7;display: none;" id="divid-usermanage">
             <table class="table table-hover table-striped table-bordered">
-                <caption>用户列表</caption>
+                <caption>
+                    <nav class="navbar navbar-default" role="navigation">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <a class="navbar-brand">用户列表</a>
+                            </div>
+                            <div>
+                                <form class="navbar-form navbar-right" role="search"  onsubmit="return ;">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="请输入用户名" ng-model="searchUserName">
+                                    </div>
+                                    <button type="button" class="btn btn-default" ng-click="actionOnUser(this,constRef[0][3])">
+                                        <span class="glyphicon glyphicon-search"></span>&nbsp;<span ng-bind="constRef[0][3]"></span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </nav>
+                </caption>
                 <thead>
                 <tr><th>用户名</th><th>电话</th><th>创建时间</th><th>操作</th></tr>
                 </thead>
@@ -115,7 +133,7 @@
             <div><!--分页bar ng-if则不能给button设置disabled因为ng-if不满足条件不会生成相应dom元素-->
                 <span ng-show="userList.length > 0">
                     <input type="button" ng-click="beforePaging(prevPage)" class="btn btn-default btnid-prevpage" value={{prevPage}} />&nbsp;
-                    <input type="text" style="text-align:center;width:50px;" ng-model="currentPage" />&nbsp;
+                    <input type="text" disabled style="text-align:center;width:50px;" ng-model="currentPage" />&nbsp;
                     <input type="button" ng-click="beforePaging(nextPage)"  class="btn btn-default btnid-nextpage" value="{{nextPage}}" />&nbsp;
                     <span>共&nbsp;</span>
                     <input type="text" readonly="readonly" style="text-align:center;width:50px;border:none;" ng-model="totalPage" />
@@ -177,7 +195,7 @@
             <div><!--分页bar ng-if则不能给button设置disabled因为ng-if不满足条件不会生成相应dom元素-->
                 <span ng-show="roleList.length > 0">
                     <input type="button" ng-click="beforePaging(prevPage)" class="btn btn-default btnid-prevpage" value={{prevPage}} />&nbsp;
-                    <input type="text" style="text-align:center;width:50px;" ng-model="currentPage" />&nbsp;
+                    <input type="text" disabled style="text-align:center;width:50px;" ng-model="currentPage" />&nbsp;
                     <input type="button" ng-click="beforePaging(nextPage)"  class="btn btn-default btnid-nextpage" value="{{nextPage}}" />&nbsp;
                     <span>共&nbsp;</span>
                     <input type="text" readonly="readonly" style="text-align:center;width:50px;border:none;" ng-model="totalPage" />
