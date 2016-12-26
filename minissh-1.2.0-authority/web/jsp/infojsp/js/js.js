@@ -16,7 +16,8 @@ var offFunction = function(){
 angular.module("mainapp",[])
     .constant('constRef',[["查看详情","分配角色","删除","搜索"],//user table
         ["首页","用户管理","文件管理","角色管理"],//left nav bar
-        ["查看详情","删除","新增角色","搜索","编辑","取消","提交"]])// role table
+        ["查看详情","删除","新增角色","搜索","编辑","取消","提交"],// role table
+        ["系统消息","编辑","注销"]])//topOperation
     .controller("maincontroller",function($scope,constRef){
         $scope.currentPage = 0;
         $scope.totalPage = 0;
@@ -28,6 +29,17 @@ angular.module("mainapp",[])
         $scope.searchUserName = "";
         $scope.justForModalInfomation = "";
 
+        $scope.topOperation = function(obj){
+            if(obj == "系统消息"){
+                $scope.justForModalInfomation = "暂时没有消息!";
+                $("#modalid-toastInfo").modal("toggle");
+            }else if(obj == "编辑"){
+                $scope.getLoger();
+                $("#modalid-editInfo").modal("toggle");
+            }else if(obj == "注销"){
+                $("#modalid-offconf").modal("toggle");
+            }
+        };
         $scope.rightDiv = function (obj) {
             $scope.currentPage = 0;
             $scope.totalPage = 0;
@@ -76,6 +88,18 @@ angular.module("mainapp",[])
                 $scope.searchRoleNameUrlSufix = "";
                 $scope.getRolePageList();
             }
+        };
+        $scope.getLoger = function(){
+            $.ajax({
+                type:"POST",
+                url:"/login/getLoger",
+                data:{"id":user_id},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                }
+            });
         };
         $scope.deleteOneUser = function(item){
             $.ajax({
@@ -311,7 +335,10 @@ angular.module("mainapp",[])
                     success:function(data){
                         console.log(data);
                         if(data.message == "该角色已存在"){
-                            alert("该角色已存在");
+                            $scope.$apply(function(){
+                                $scope.justForModalInfomation = "该角色已存在!";
+                                $("#modalid-toastInfo").modal("toggle");
+                            });
                         }else{
                             var tempFunc = function(){
                                 if($scope.currentPage == $scope.totalPage && $scope.listLength == 5){
@@ -331,7 +358,7 @@ angular.module("mainapp",[])
                     }
                 });
             }else{
-                $scope.justForModalInfomation = "角色名不能为空";
+                $scope.justForModalInfomation = "角色名不能为空!";
                 $("#modalid-toastInfo").modal("toggle");
             }
         };

@@ -69,6 +69,58 @@ public class LoginServiceImpl implements ILoginService  {
 		}
 	}
 
+    @Override
+    public Map<String, Object> editLoger(Integer id,String username, String tel, String email) throws Exception {
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        String hql = " from User u where u.id='"+id+"' ";
+        if(userDao.findOne(hql) == null){
+            returnMap.put("message", "错误:编辑失败");
+            returnMap.put("success", false);
+            return returnMap;
+        }else{
+            User user = userDao.findOne(hql);
+            if(username != null && !username.equals("")){
+                user.setUsername(username);
+            }
+            if(tel != null && !tel.equals("")){
+                user.setTel(tel);
+            }
+            if(email != null && !email.equals("")){
+                user.setEmail(email);
+            }
+            user.setCreateTime(new Date());
+            //user.setIsDelete(false);
+            userDao.update(user);
+            returnMap.put("value", user);
+            returnMap.put("message", "编辑成功");
+            returnMap.put("success", true);
+            return returnMap;
+        }
+    }
+
+    @Override
+    public Map<String, Object> getLoger(Integer id) throws Exception {
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        String hql = " select new com.whut.work.user.vo.UserVo(u.id,u.username,u.tel,u.email) from User u where u.id='"+id+"' ";
+        User user = new User();
+        try {
+            user = userDao.findOne(hql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(user != null){
+            returnMap.put("value", user);
+            returnMap.put("message", "获取成功");
+            returnMap.put("success", true);
+
+        }else{
+            returnMap.put("message", "该用户不存在!");
+            returnMap.put("success", false);
+        }
+        return returnMap;
+    }
 
 
 }

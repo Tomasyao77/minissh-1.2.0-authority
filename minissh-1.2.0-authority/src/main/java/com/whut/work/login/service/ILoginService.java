@@ -9,7 +9,11 @@ public interface ILoginService {
 	
 	//注册
 	public Map<String,Object> register(String username, String password, String tel, String email) throws Exception;
-	
 
+	//编辑登录用户的信息
+	public Map<String,Object> editLoger(Integer id,String username,String tel, String email) throws Exception;
+
+    //获取登录用户的信息
+    public Map<String,Object> getLoger(Integer id) throws Exception;
 	
 }

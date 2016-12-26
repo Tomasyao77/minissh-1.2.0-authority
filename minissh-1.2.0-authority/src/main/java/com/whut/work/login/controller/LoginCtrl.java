@@ -129,5 +129,55 @@ public class LoginCtrl {
         }
         return returnMap;
     }
-	
+
+    @RequestMapping(value="/editLoger",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> editLoger(HttpServletRequest request,Integer id,String username,String tel,String email){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            Map<String,Object> map = loginService.editLoger(id,username, tel, email);
+            //获取user实体
+            Object object = map.get("value");
+            if(object != null){
+                User user = (User) object;
+                HttpSession session = request.getSession();
+                session.setAttribute("userId", user.getId());
+            }
+            returnMap.put("value", object);
+            returnMap.put("message", map.get("message"));
+            returnMap.put("success", map.get("success"));
+        } catch (Exception e) {
+            returnMap.put("message", "异常：注册失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value="/getLoger",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getLoger(HttpServletRequest request,Integer id){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            Map<String,Object> map = loginService.getLoger(id);
+            //获取user实体
+            Object object = map.get("value");
+            if(object != null){
+                User user = (User) object;
+                HttpSession session = request.getSession();
+                session.setAttribute("userId", user.getId());
+            }
+            returnMap.put("value", object);
+            returnMap.put("message", map.get("message"));
+            returnMap.put("success", map.get("success"));
+        } catch (Exception e) {
+            returnMap.put("message", "异常：获取失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
 }

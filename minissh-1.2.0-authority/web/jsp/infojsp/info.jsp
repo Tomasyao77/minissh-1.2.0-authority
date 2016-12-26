@@ -40,17 +40,17 @@
                     <div class="form-group">
                         <div class="btn-group">
                             <input id="btnid-username" type="button" class="btn" value=""/>
-                            <button type="button" class="btn btn-warning"  onclick="modalToggle(this)">
-                                <span class="glyphicon glyphicon-envelope"></span>
-                                系统消息
+                            <button type="button" class="btn btn-warning"  ng-click="topOperation(constRef[3][0])">
+                                <span class="glyphicon glyphicon-envelope"></span>&nbsp;
+                                <span ng-bind="constRef[3][0]"></span>
                             </button>
-                            <button type="button" class="btn btn-success" onclick="modalToggle(this)">
-                                <span class="glyphicon glyphicon-edit"></span>
-                                编辑
+                            <button type="button" class="btn btn-success" ng-click="topOperation(constRef[3][1])">
+                                <span class="glyphicon glyphicon-edit"></span>&nbsp;
+                                <span ng-bind="constRef[3][1]"></span>
                             </button>
-                            <button type="button" class="btn btn-danger" onclick="modalToggle(this)">
-                                <span class="glyphicon glyphicon-off"></span>
-                                注销
+                            <button type="button" class="btn btn-danger" ng-click="topOperation(constRef[3][2])">
+                                <span class="glyphicon glyphicon-off"></span>&nbsp;
+                                <span ng-bind="constRef[3][2]"></span>
                             </button>
                         </div>
                     </div>
