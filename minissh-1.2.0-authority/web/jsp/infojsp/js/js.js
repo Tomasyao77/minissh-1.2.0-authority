@@ -1,17 +1,7 @@
-var modalToggle = function (obj) {
-    var whichModal = $(obj).text();
-    if(whichModal.indexOf("系统消息") !=- 1){
-        alert("no message");
-    }else if(whichModal.indexOf("编辑") !=- 1){
-        $("#modalid-editInfo").modal("toggle");
-    }else if(whichModal.indexOf("注销") !=- 1){
-        $("#modalid-offconf").modal("toggle");
-    }
-};
 var offFunction = function(){
     window.location.href = "/login.html";
 };
-
+var a = "123321";
 //angularModuleStart
 angular.module("mainapp",[])
     .constant('constRef',[["查看详情","分配角色","删除","搜索"],//user table
@@ -25,9 +15,23 @@ angular.module("mainapp",[])
         $scope.prevPage = "上一页";
         $scope.nextPage = "下一页";
         $scope.constRef = constRef;
-        $scope.searchRoleName = "";
-        $scope.searchUserName = "";
+        $scope.searchRoleName = "";//search role
+        $scope.searchUserName = "";//search user
         $scope.justForModalInfomation = "";
+
+        $scope.GetQueryString = function(name){
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null){return  decodeURI(r[2]);} return null;
+        };
+        $scope.htmlInit = function(){
+            $scope.usernameOfLoger = $scope.GetQueryString("userName");
+            $scope.idOfLoger = $scope.GetQueryString("userId");
+            if(parseInt($scope.usernameOfLoger) < 1){
+                window.location.href = "/login.html";
+            }
+        };
+        $scope.htmlInit();//init the userId(from loger)
 
         $scope.topOperation = function(obj){
             if(obj == "系统消息"){
@@ -93,11 +97,38 @@ angular.module("mainapp",[])
             $.ajax({
                 type:"POST",
                 url:"/login/getLoger",
-                data:{"id":user_id},
+                data:{"id":$scope.idOfLoger},
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"json",
                 success:function(data){
                     console.log(data);
+                    $scope.$apply(function(){
+                        $scope.editLogerArray = new Array();
+                        var obj = {};
+                        obj['id'] = data.value[0].id;
+                        obj['username'] = data.value[0].username;
+                        obj['email'] = data.value[0].email;
+                        obj['tel'] = data.value[0].tel;
+                        $scope.editLogerArray.push(obj);
+                        $scope.temp = "123";
+                    });
+                }
+            });
+        };
+        $scope.editLoger = function(){
+            $.ajax({
+                type:"POST",
+                url:"/login/editLoger",
+                data:{"id":$scope.idOfLoger,"username":$scope.editLogerArray[0].username,
+                    "tel":$scope.editLogerArray[0].tel,"email":$scope.editLogerArray[0].email},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                    $scope.$apply(function(){
+                        $scope.justForModalInfomation = "编辑个人信息成功!";
+                        $("#modalid-toastInfo").modal("toggle");
+                    });
                 }
             });
         };

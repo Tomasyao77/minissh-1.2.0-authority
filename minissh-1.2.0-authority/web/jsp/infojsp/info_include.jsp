@@ -11,7 +11,7 @@
     <title>modal jsp</title>
 </head>
 <body>
-<!-- 编辑个人信息  模态弹出框 -->
+<!-- 编辑Loger个人信息  模态弹出框 -->
 <div class="modal fade" id="modalid-editInfo">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -26,26 +26,26 @@
                     <div class="form-group">
                         <label for="username" class="col-sm-2 control-label">用户名</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="username" placeholder="请输入用户名">
+                            <input type="text" class="form-control" id="username" ng-model="editLogerArray[0].username">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-sm-2 control-label">邮箱</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="email" placeholder="请输入邮箱">
+                            <input type="text" class="form-control" id="email" ng-model="editLogerArray[0].email">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="tel" class="col-sm-2 control-label">电话</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="tel" placeholder="请输入电话">
+                            <input type="text" class="form-control" id="tel" ng-model="editLogerArray[0].tel">
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="transferWork()">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="editLoger()">提交</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

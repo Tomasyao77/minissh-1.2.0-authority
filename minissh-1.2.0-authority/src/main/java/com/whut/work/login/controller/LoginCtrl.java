@@ -164,11 +164,11 @@ public class LoginCtrl {
             Map<String,Object> map = loginService.getLoger(id);
             //获取user实体
             Object object = map.get("value");
-            if(object != null){
+            /*if(object != null){
                 User user = (User) object;
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", user.getId());
-            }
+            }*/
             returnMap.put("value", object);
             returnMap.put("message", map.get("message"));
             returnMap.put("success", map.get("success"));

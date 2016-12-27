@@ -2,6 +2,7 @@ package com.whut.work.login.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,12 +105,7 @@ public class LoginServiceImpl implements ILoginService  {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
         String hql = " select new com.whut.work.user.vo.UserVo(u.id,u.username,u.tel,u.email) from User u where u.id='"+id+"' ";
-        User user = new User();
-        try {
-            user = userDao.findOne(hql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        List<User> user = userDao.findList(hql);
         if(user != null){
             returnMap.put("value", user);
             returnMap.put("message", "获取成功");

@@ -29,7 +29,7 @@
 <body style="background-color: #f7f7f7;" ng-app="mainapp" ng-controller="maincontroller">
 <%@ include  file="info_include.jsp"%>
 
-<div class="container" style="background-color: #f7f7f7;padding: 0px;" ng-controller="maincontroller">
+<div class="container" style="background-color: #f7f7f7;padding: 0px;">
     <nav class="navbar navbar-default" role="navigation" style="background-color: #31708f;">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -39,7 +39,10 @@
                 <form class="navbar-form navbar-right" role="search">
                     <div class="form-group">
                         <div class="btn-group">
-                            <input id="btnid-username" type="button" class="btn" value=""/>
+                            <button type="button" class="btn btn-default">
+                                <span class="glyphicon glyphicon-user"></span>&nbsp;
+                                <span ng-bind="usernameOfLoger"></span>
+                            </button>
                             <button type="button" class="btn btn-warning"  ng-click="topOperation(constRef[3][0])">
                                 <span class="glyphicon glyphicon-envelope"></span>&nbsp;
                                 <span ng-bind="constRef[3][0]"></span>
@@ -211,20 +214,6 @@
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
 <script src="jsp/infojsp/js/js.js"></script>
-<script>
-    window.onload = function () {
-        var GetQueryString = function(name){
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null){return  decodeURI(r[2]);} return null;
-        };
-        var user_id = GetQueryString("userId");
-        if(parseInt(user_id) < 1){
-            window.location.href = "/login.html";
-        }
-        $("#btnid-username").val("用户: "+GetQueryString("userName"));
-    };
-</script>
 
 </body>
 </html>
