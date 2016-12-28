@@ -45,7 +45,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="editLoger()">提交</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="editLoger()"
+                        ng-disabled="editLogerArray[0].email == '' || editLogerArray[0].username == '' ||
+                         editLogerArray[0].tel == '' || editLogerArray[0].email == null || editLogerArray[0].username == null ||
+                         editLogerArray[0].tel == null ">提交</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
