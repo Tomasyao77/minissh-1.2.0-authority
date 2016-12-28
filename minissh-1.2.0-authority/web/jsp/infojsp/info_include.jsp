@@ -162,7 +162,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnid-roleeditsubmit" ng-click="editRole(constRef[2][6])" style="display: none;" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;<span ng-bind="constRef[2][6]"></span></button>
+                <button type="button" id="btnid-roleeditsubmit" ng-disabled="roleViewInfo.name == '' || roleViewInfo.name == null" ng-click="editRole(constRef[2][6])" style="display: none;" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;<span ng-bind="constRef[2][6]"></span></button>
                 <button type="button" id="btnid-roleeditcancel" ng-click="editRole(constRef[2][5])" style="display: none;" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-bind="constRef[2][5]"></span></button>
                 <button type="button" id="btnid-roleedit" ng-click="editRole(constRef[2][4])" class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span>&nbsp;<span ng-bind="constRef[2][4]"></span></button>
                 <button type="button" id="btnid-roleeditok" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok"></span>&nbsp;OK</button>

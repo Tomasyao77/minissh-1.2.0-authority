@@ -94,8 +94,9 @@
         </div>
 
         <div class="col-xs-10" style="background-color: #f7f7f7;" id="divid-homepage">
-            <h1>欢迎来到</h1>
-            <h2>这里</h2>
+            <div class="container" style="width: 100%;">
+                    <img src="jsp/infojsp/assets/img/welcome.jpg" alt="welcome" width="100%" height="80%"/>
+            </div>
         </div>
 
         <div class="col-xs-10" style="background-color: #f7f7f7;display: none;" id="divid-usermanage">
