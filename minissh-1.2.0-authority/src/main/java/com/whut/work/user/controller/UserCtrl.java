@@ -118,6 +118,24 @@ public class UserCtrl {
         return returnMap;
     }
 
+    @RequestMapping(value="/getUsersOfOneRole",method= RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> getUsersOfOneRole(HttpServletRequest request,Integer id,Integer currentPage,Integer pageSize){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            Map<String,Object> roleList = userService.getUsersOfOneRole(id,currentPage,pageSize);
+
+            returnMap.put("list", roleList.get("urList"));
+            returnMap.put("success", true);
+        } catch (Exception e) {
+            returnMap.put("message", "异常：获取失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
     @RequestMapping(value="/deleteOneRole",method=RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> deleteOneRole(HttpServletRequest request,Integer id){

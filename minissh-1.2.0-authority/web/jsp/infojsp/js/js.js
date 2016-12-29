@@ -6,7 +6,7 @@ var a = "123321";
 angular.module("mainapp",[])
     .constant('constRef',[["查看详情","分配角色","删除","搜索"],//user table
         ["首页","用户管理","文件管理","角色管理"],//left nav bar
-        ["查看详情","删除","新增角色","搜索","编辑","取消","提交"],// role table
+        ["查看详情","删除","新增角色","搜索","编辑","取消","提交","用户管理"],// role table
         ["系统消息","编辑","注销"]])//topOperation
     .controller("maincontroller",function($scope,constRef){
         $scope.currentPage = 0;
@@ -341,7 +341,22 @@ angular.module("mainapp",[])
             }else if(obj == "删除"){
                 $scope.deleteOneRoleItem = item;
                 $("#modalid-delRoleConf").modal("toggle");
+            }else if(obj == "用户管理"){
+                $scope.getUsersOfOneRole(item,1,5);
             }
+        };
+        $scope.getUsersOfOneRole = function(obj,currentPage,pageSize){
+            $.ajax({
+                type:"POST",
+                url:"/user_role/getUsersOfOneRole",
+                data:{"id":obj.id,"currentPage":currentPage,"pageSize":pageSize},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+
+                }
+            });
         };
         $scope.editRole = function(obj){
             if(obj == "编辑"){

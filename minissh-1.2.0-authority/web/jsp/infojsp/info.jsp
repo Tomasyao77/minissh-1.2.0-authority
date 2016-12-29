@@ -192,6 +192,7 @@
                     <td ng-bind="item.name"></td>
                     <td ng-bind="item.createTime"></td>
                     <td><button ng-click="actionOnRole(item,constRef[2][0])" type="button" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-user"></span>&nbsp;<span ng-bind="constRef[2][0]"></span></button>
+                        <button ng-click="actionOnRole(item,constRef[2][7])" type="button" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;<span ng-bind="constRef[2][7]"></span></button>
                         <button ng-click="actionOnRole(item,constRef[2][1])" type="button" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-bind="constRef[2][1]"></span></button></td>
                 </tr>
                 </tbody>

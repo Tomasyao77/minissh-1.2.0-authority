@@ -21,6 +21,9 @@ public interface IUserService {
     //获取用户的角色列表
     public Map<String,Object> getRoleBelongToUser(Integer id) throws Exception;
 
+    //获取角色的用户列表
+    public Map<String,Object> getUsersOfOneRole(Integer id,Integer currentPage,Integer pageSize) throws Exception;
+
     //为用户分配角色
     public Map<String,Object> roleForOneUser(Integer id,String roleList) throws Exception;
 

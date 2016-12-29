@@ -87,6 +87,28 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public Map<String, Object> getUsersOfOneRole(Integer id,Integer currentPage,Integer pageSize) throws Exception {
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        String hql = " select new com.whut.work.user.vo.UserVo(u.id,u.username,u.createTime) from User u where " +
+                "u.id=any(select ur.userId from UserRole ur where ur.roleId="+id+") ";
+
+        String hqlCount = " select count(*) from User u where " +
+                "u.id=any(select ur.userId from UserRole ur where ur.roleId="+id+") ";
+        Page<User> urList = userDao.findPage(currentPage,pageSize,hql,hqlCount);
+        if(urList != null){
+            returnMap.put("urList", urList);
+            returnMap.put("message", "获取成功");
+            returnMap.put("success", true);
+            return returnMap;
+        }else{
+            returnMap.put("message", "没有找到相应结果");
+            returnMap.put("success", false);
+            return returnMap;
+        }
+    }
+
+    @Override
     public Map<String, Object> roleForOneUser(Integer id, String roleList) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
         String hql = " from UserRole ur where ur.userId='"+id+"' ";
@@ -173,6 +195,10 @@ public class UserServiceImpl implements IUserService {
         }
         if(role != null){
             roleDao.delete(role);
+            //然后把user_role关系表中的对应记录删除
+            String delhql = " delete UserRole where roleId='"+id+"' ";
+            urDao.deleteWithHql(delhql);
+
             returnMap.put("message", "删除成功");
             returnMap.put("success", true);
             return returnMap;
