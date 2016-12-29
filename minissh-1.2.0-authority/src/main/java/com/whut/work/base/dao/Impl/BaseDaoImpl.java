@@ -79,6 +79,15 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
     }
 
     @Override
+    public void deleteWithHql(String hql) throws Exception {
+        Session session = this.getSession();
+        session.beginTransaction();
+        Query query = session.createQuery(hql);
+        query.executeUpdate();
+        session.getTransaction().commit();
+    }
+
+    @Override
     public void update(T entity) throws Exception {
         Session session = this.getSession();
         session.beginTransaction();

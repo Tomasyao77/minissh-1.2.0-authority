@@ -81,9 +81,9 @@ public class UserCtrl {
         return returnMap;
     }
 
-    @RequestMapping(value="/getSimpleRolePageList",method= RequestMethod.POST)
+    @RequestMapping(value="/getSimpleRoleList",method= RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> getSimpleRolePageList(HttpServletRequest request){
+    public Map<String,Object> getSimpleRoleList(HttpServletRequest request){
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
         try {

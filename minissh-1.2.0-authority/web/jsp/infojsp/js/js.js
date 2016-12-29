@@ -254,7 +254,7 @@ angular.module("mainapp",[])
                 //console.log($scope.userViewInfo);
             }else if(obj == "分配角色"){
                 $scope.userViewInfo = item;
-                $scope.getSimpleRolePageList();
+                $scope.getSimpleRoleList();
                 $scope.checkBoxArray = new Array();
                 $("#modalid-roleForUser").modal("toggle");
             }else if(obj == "删除"){
@@ -396,7 +396,7 @@ angular.module("mainapp",[])
         $scope.roleForOneUser = function(){
             this.roleArray = "";
             for(var index in $scope.checkBoxArray){
-                this.roleArray += $scope.checkBoxArray[index].toString();
+                this.roleArray += $scope.checkBoxArray[index].toString()+"-";
             }
             console.log(this.roleArray);
             $.ajax({
@@ -412,10 +412,10 @@ angular.module("mainapp",[])
                 }
             });
         };
-        $scope.getSimpleRolePageList = function(){
+        $scope.getSimpleRoleList = function(){
             $.ajax({
                 type:"POST",
-                url:"/user_role/getSimpleRolePageList",
+                url:"/user_role/getSimpleRoleList",
                 data:{},
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"json",

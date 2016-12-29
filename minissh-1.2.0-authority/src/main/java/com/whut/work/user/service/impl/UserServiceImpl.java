@@ -11,6 +11,7 @@ import com.whut.work.base.model.Page;
 import com.whut.work.user.dao.impl.UserDaoImpl;
 import com.whut.work.user.model.User;
 import com.whut.work.user.service.IUserService;
+import util.JavaStringUtil;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -71,24 +72,25 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Map<String, Object> roleForOneUser(Integer id, String roleList) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
-        String hql = "from UserRole ur where ur.userId='"+id+"'";
+        String hql = " from UserRole ur where ur.userId='"+id+"' ";
+        String delhql = " delete UserRole where userId='"+id+"' ";
 
         List<UserRole> urFromJspList = new ArrayList<UserRole>();
-        for(int i=0;i<roleList.length();i++){
+        List<Integer> roleIdList = JavaStringUtil.stringToList(roleList,"-");
+        for(int i=0;i<roleIdList.size();i++){
             UserRole ur = new UserRole();
             ur.setUserId(id);
-            ur.setRoleId(Integer.parseInt(roleList.substring(i,i+1)));
+            ur.setRoleId(roleIdList.get(i));
             urFromJspList.add(ur);
         }
 
-        if(urDao.findList(hql) == null){
+        if(urDao.findList(hql) != null){
+            urDao.deleteWithHql(delhql);
             urDao.batchSave(urFromJspList);
-        }else {
-            List<UserRole> urFromTableList = urDao.findList(hql);
-            urDao.deleteAll(urFromTableList);
+        }else{
             urDao.batchSave(urFromJspList);
         }
-
+        JavaStringUtil.setListInt(new ArrayList<Integer>());
         returnMap.put("message", "为用户分配角色成功");
         returnMap.put("success", true);
         return returnMap;

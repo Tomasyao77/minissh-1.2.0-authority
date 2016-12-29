@@ -14,12 +14,13 @@ public interface IBaseDao<T> {
 	//单个CRUD
 	public void save(final T entity) throws Exception;
 	public void delete(final T entity) throws Exception;
+    public void deleteWithHql(final String hql) throws Exception;
 	public void update(final T entity) throws Exception;
 	public T getOne(final int id) throws Exception;
 
     //批处理
     public int batchSave(final List<T> list) throws Exception;
-    public void deleteAll(final Collection entities) throws Exception;
+    public void deleteAll(final Collection entities) throws Exception;//删不掉？
 
 	//createQuery（Query）
 	public T findOne(final String hql) throws Exception;
