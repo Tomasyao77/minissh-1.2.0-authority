@@ -11,9 +11,8 @@ import com.whut.work.base.model.Page;
 import com.whut.work.user.dao.impl.UserDaoImpl;
 import com.whut.work.user.model.User;
 import com.whut.work.user.service.IUserService;
-import util.JavaStringUtil;
+import com.whut.work.base.util.JavaStringUtil;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Component

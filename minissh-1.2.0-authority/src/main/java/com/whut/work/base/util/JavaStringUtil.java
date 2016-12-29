@@ -1,4 +1,4 @@
-package util;
+package com.whut.work.base.util;
 
 import java.util.ArrayList;
 import java.util.List;
