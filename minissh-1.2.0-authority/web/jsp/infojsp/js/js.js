@@ -254,8 +254,9 @@ angular.module("mainapp",[])
                 //console.log($scope.userViewInfo);
             }else if(obj == "分配角色"){
                 $scope.userViewInfo = item;
-                $scope.getSimpleRoleList();
                 $scope.checkBoxArray = new Array();
+                $scope.getRoleBelongToUser(item);
+                $scope.getSimpleRoleList();
                 $("#modalid-roleForUser").modal("toggle");
             }else if(obj == "删除"){
                 $scope.deleteOneUserItem = item;
@@ -270,10 +271,42 @@ angular.module("mainapp",[])
                 }
             }
         };
+        $scope.ifSetChecked = function(obj){
+            if($scope.roleBelongToUser.length != 0){
+                for(var i=0;i<$scope.roleBelongToUser.length;i++){
+                    if(obj.id == $scope.roleBelongToUser[i].roleId){
+                        return true;
+                    }else{
+                        continue;
+                    }
+                }
+            }
+            return false;
+        };
+        $scope.getRoleBelongToUser = function(obj){
+            $.ajax({
+                type:"POST",
+                url:"/user_role/getRoleBelongToUser",
+                data:{"id":obj.id},
+                contentType:"application/x-www-form-urlencoded",
+                dataType:"json",
+                success:function(data){
+                    console.log(data);
+                    $scope.$apply(function(){
+                        $scope.roleBelongToUser = new Array();
+                        var obj = {};
+                        for(var index in data.list){
+                            obj['roleId'] = data.list[index].roleId;
+                            $scope.checkBoxArray.push(data.list[index].roleId);
+                            $scope.roleBelongToUser.push(obj);obj = {};
+                        }
+                    });
+                }
+            });
+        };
         $scope.roleForUserCheckBoxs = function($event,item){//$event类似于普通js的this对象
             //console.log(item.id);
             //console.log($event.target.checked);//被点击的checkbox是否被选中
-            var obj = {};
             if($event.target.checked == true){
                 $scope.checkBoxArray.push(item.id);
             }else{
@@ -408,6 +441,8 @@ angular.module("mainapp",[])
                 success:function(data){
                     console.log(data);
                     $scope.$apply(function(){
+                        $scope.justForModalInfomation = "为用户分配角色成功!";
+                        $("#modalid-toastInfo").modal("toggle");
                     });
                 }
             });

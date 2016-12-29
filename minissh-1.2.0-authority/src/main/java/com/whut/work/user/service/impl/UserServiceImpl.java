@@ -69,6 +69,24 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public Map<String, Object> getRoleBelongToUser(Integer id) throws Exception {
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        String hql = " from UserRole ur where ur.userId='"+id+"' ";
+        List<UserRole> urList = urDao.findList(hql);
+        if(urList != null){
+            returnMap.put("urList", urList);
+            returnMap.put("message", "获取成功");
+            returnMap.put("success", true);
+            return returnMap;
+        }else{
+            returnMap.put("message", "没有找到相应结果");
+            returnMap.put("success", false);
+            return returnMap;
+        }
+    }
+
+    @Override
     public Map<String, Object> roleForOneUser(Integer id, String roleList) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
         String hql = " from UserRole ur where ur.userId='"+id+"' ";

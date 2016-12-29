@@ -121,7 +121,7 @@
                         <label for="email" class="col-sm-2 col-sm-offset-2 control-label">角色</label>
                         <div class="col-sm-6">
                             <div ng-repeat="item in roleSimpleList">
-                                <label class="checkbox-inline"><input type="checkbox" ng-click="roleForUserCheckBoxs($event,item)"><span ng-bind="item.roleName"></span></label>
+                                <label class="checkbox-inline"><input type="checkbox" ng-checked="ifSetChecked(item)" ng-click="roleForUserCheckBoxs($event,item)"><span ng-bind="item.roleName"></span></label>
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ package com.whut.work.user.controller;
 import com.whut.work.base.model.Page;
 import com.whut.work.user.model.Role;
 import com.whut.work.user.model.User;
+import com.whut.work.user.model.UserRole;
 import com.whut.work.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -105,9 +106,9 @@ public class UserCtrl {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
         try {
-            List<Role> roleList = userService.getSimpleRolePageList();
+            Map<String,Object> roleList = userService.getRoleBelongToUser(id);
 
-            returnMap.put("list", roleList);
+            returnMap.put("list", roleList.get("urList"));
             returnMap.put("success", true);
         } catch (Exception e) {
             returnMap.put("message", "异常：获取失败!");
@@ -170,4 +171,5 @@ public class UserCtrl {
         }
         return returnMap;
     }
+
 }
