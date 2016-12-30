@@ -120,11 +120,11 @@ public class UserCtrl {
 
     @RequestMapping(value="/getUsersOfOneRole",method= RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> getUsersOfOneRole(HttpServletRequest request,Integer id,Integer currentPage,Integer pageSize){
+    public Map<String,Object> getUsersOfOneRole(HttpServletRequest request,Integer id){
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
         try {
-            Map<String,Object> roleList = userService.getUsersOfOneRole(id,currentPage,pageSize);
+            Map<String,Object> roleList = userService.getUsersOfOneRole(id);
 
             returnMap.put("list", roleList.get("urList"));
             returnMap.put("success", true);
@@ -184,6 +184,23 @@ public class UserCtrl {
             returnMap.put("success", map.get("success"));
         } catch (Exception e) {
             returnMap.put("message", "异常：为用户分配角色失败!");
+            returnMap.put("success", false);
+            e.printStackTrace();
+        }
+        return returnMap;
+    }
+
+    @RequestMapping(value="/unFriendUserOfRole",method= RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> unFriendUserOfRole(HttpServletRequest request,Integer roleId,Integer userId){
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+        try {
+            Map<String,Object> map = userService.unFriendUserOfRole(roleId, userId);
+            returnMap.put("message", map.get("message"));
+            returnMap.put("success", map.get("success"));
+        } catch (Exception e) {
+            returnMap.put("message", "异常：解除关系!");
             returnMap.put("success", false);
             e.printStackTrace();
         }

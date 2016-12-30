@@ -58,6 +58,10 @@ public class UserServiceImpl implements IUserService {
         if(user != null){
             user.setIsDelete(true);
             userDao.update(user);
+            //然后把user_role关系表中的对应记录删除
+            String delhql = " delete UserRole where userId='"+id+"' ";
+            urDao.deleteWithHql(delhql);
+
             returnMap.put("message", "删除成功");
             returnMap.put("success", true);
             return returnMap;
@@ -87,15 +91,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Map<String, Object> getUsersOfOneRole(Integer id,Integer currentPage,Integer pageSize) throws Exception {
+    public Map<String, Object> getUsersOfOneRole(Integer id) throws Exception {
         Map<String,Object> returnMap = new HashMap<String,Object>();
 
-        String hql = " select new com.whut.work.user.vo.UserVo(u.id,u.username,u.createTime) from User u where " +
+        //any关键字表示子查询中的结果每一条都分别与u.id做比较
+        String hql = " select new com.whut.work.user.vo.UserVo(u.id,u.username,u.tel,u.email,u.createTime) from User u where " +
                 "u.id=any(select ur.userId from UserRole ur where ur.roleId="+id+") ";
 
-        String hqlCount = " select count(*) from User u where " +
-                "u.id=any(select ur.userId from UserRole ur where ur.roleId="+id+") ";
-        Page<User> urList = userDao.findPage(currentPage,pageSize,hql,hqlCount);
+        /*String hqlCount = " select count(*) from User u where " +
+                "u.id=any(select ur.userId from UserRole ur where ur.roleId="+id+") ";*/
+        List<User> urList = userDao.findList(hql);
         if(urList != null){
             returnMap.put("urList", urList);
             returnMap.put("message", "获取成功");
@@ -207,6 +212,18 @@ public class UserServiceImpl implements IUserService {
             returnMap.put("success", false);
             return returnMap;
         }
+    }
+
+    @Override
+    public Map<String, Object> unFriendUserOfRole(Integer roleId, Integer userId) throws Exception {
+        Map<String,Object> returnMap = new HashMap<String,Object>();
+
+            String delhql = " delete UserRole where roleId='"+roleId+"' and userId='"+userId+"' ";
+            urDao.deleteWithHql(delhql);
+
+            returnMap.put("message", "删除成功");
+            returnMap.put("success", true);
+            return returnMap;
     }
 
     @Override

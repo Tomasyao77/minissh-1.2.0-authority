@@ -342,21 +342,81 @@ angular.module("mainapp",[])
                 $scope.deleteOneRoleItem = item;
                 $("#modalid-delRoleConf").modal("toggle");
             }else if(obj == "用户管理"){
-                $scope.getUsersOfOneRole(item,1,5);
+                $scope.getUsersOfOneRole(item.id);
+                $("#modalid-viewUserListOfOneRole").modal("toggle");
             }
         };
-        $scope.getUsersOfOneRole = function(obj,currentPage,pageSize){
+        /*$scope.makePagingListUsersOfRole = function(obj,roleId){
+            if(obj=="上一页"){
+                if($scope.currentPage == 0){
+                    //nothing to do
+                }else if($scope.currentPage == 1){
+                    alert("当前已经是第一页！");//其实并不会发生，因为disabled
+                }else{
+                    $scope.currentPage = $scope.currentPage - 1;
+                    $scope.getUsersOfOneRole(roleId,1,5);
+                }
+            }else if(obj=="下一页"){
+                if($scope.currentPage == 0){
+                    //nothing to do
+                }else if($scope.currentPage == $scope.totalPage){
+                    alert("当前已经是最后一页！");//其实并不会发生，因为disabled
+                }else{
+                    $scope.currentPage = $scope.currentPage + 1;
+                    $scope.getUsersOfOneRole(roleId,1,5);
+                }
+            }
+        };*/
+        $scope.getUsersOfOneRole = function(roleId){
             $.ajax({
                 type:"POST",
                 url:"/user_role/getUsersOfOneRole",
-                data:{"id":obj.id,"currentPage":currentPage,"pageSize":pageSize},
+                data:{"id":roleId},
                 contentType:"application/x-www-form-urlencoded",
                 dataType:"json",
                 success:function(data){
                     console.log(data);
+                    $scope.$apply(function(){
+                        $scope.userListOfOneRole = new Array();
+                        var obj = {};
+                        for(var index in data.list){
+                            obj['id'] = data.list[index].id;
+                            obj['username'] = data.list[index].username;
+                            obj['tel'] = data.list[index].tel;
+                            obj['email'] = data.list[index].email;
+                            var datestr = new Date(parseInt(data.list[index].createTime));
+                            var temstr = datestr.getFullYear() + "年" + (parseInt(datestr.getMonth())+1) + "月" + datestr.getDate() + "日"
+                            //+ datestr.getHours() + ":" + datestr.getMinutes() + ":" + datestr.getSeconds()
+                                ;
+                            obj['createTime'] = temstr;	//创建时间
+                            obj['roleId'] = roleId;
+                            $scope.userListOfOneRole.push(obj);obj = {};
+                        }
+                    });
 
                 }
             });
+        };
+        $scope.unFriendUserOfRoleModalToggle = function(item,obj){
+            if(obj == "删除"){
+                $scope.deleteUserOfRole = item;
+                $("#modalid-delUserOfRoleConf").modal("toggle");
+            }
+        };
+        $scope.unFriendUserOfRole = function(item){
+                $.ajax({
+                    type:"POST",
+                    url:"/user_role/unFriendUserOfRole",
+                    data:{"roleId":item.roleId,"userId":item.id},
+                    contentType:"application/x-www-form-urlencoded",
+                    dataType:"json",
+                    success:function(data){
+                        console.log(data);
+                        $scope.$apply(function(){
+                            $scope.getUsersOfOneRole(item.roleId);
+                        });
+                    }
+                });
         };
         $scope.editRole = function(obj){
             if(obj == "编辑"){

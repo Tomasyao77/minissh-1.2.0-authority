@@ -22,7 +22,7 @@ public interface IUserService {
     public Map<String,Object> getRoleBelongToUser(Integer id) throws Exception;
 
     //获取角色的用户列表
-    public Map<String,Object> getUsersOfOneRole(Integer id,Integer currentPage,Integer pageSize) throws Exception;
+    public Map<String,Object> getUsersOfOneRole(Integer id) throws Exception;
 
     //为用户分配角色
     public Map<String,Object> roleForOneUser(Integer id,String roleList) throws Exception;
@@ -41,6 +41,9 @@ public interface IUserService {
 
     //删除角色
     public Map<String,Object> deleteOneRole(Integer id) throws Exception;
+
+    //删除一个角色下的某个用户
+    public Map<String,Object> unFriendUserOfRole(Integer roleId,Integer userId) throws Exception;
 
     //编辑角色
     public Map<String,Object> editOneRole(Integer id,String roleName) throws Exception;

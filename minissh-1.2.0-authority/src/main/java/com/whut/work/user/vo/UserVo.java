@@ -26,6 +26,14 @@ public class UserVo {
         this.createTime = createTime;
     }
 
+    public UserVo(Integer id, String username, String tel, String email, Date createTime) {
+        this.id = id;
+        this.username = username;
+        this.tel = tel;
+        this.email = email;
+        this.createTime = createTime;
+    }
+
     public Integer getId() {
         return id;
     }
