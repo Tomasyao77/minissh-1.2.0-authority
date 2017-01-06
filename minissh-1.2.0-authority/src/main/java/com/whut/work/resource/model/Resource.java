@@ -1,21 +1,21 @@
-package com.whut.work.resources.model;
+package com.whut.work.resource.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by zouy on 2016/12/23.
  */
 @Entity
-@Table(name="resources")
-public class Resources {
+@Table(name="resource")
+public class Resource {
 
     @Id
     @GeneratedValue
     private Integer id;
     private String name;
+    @Column(name = "create_time")
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -31,5 +31,13 @@ public class Resources {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

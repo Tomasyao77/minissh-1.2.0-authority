@@ -1,4 +1,4 @@
-package com.whut.work.resources.model;
+package com.whut.work.resource.model;
 
 import javax.persistence.*;
 
@@ -6,16 +6,16 @@ import javax.persistence.*;
  * Created by zouy on 2016/12/23.
  */
 @Entity
-@Table(name="rolelist_resources")
-public class RoleResources {
+@Table(name="role_resource")
+public class RoleResource {
 
     @Id
     @GeneratedValue
     private Integer id;
-    @Column(name="rolelist_id")
+    @Column(name="role_id")
     private Integer roleId;
-    @Column(name="resources_id")
-    private Integer resourcesId;
+    @Column(name="resource_id")
+    private Integer resourceId;
 
     public Integer getId() {
         return id;
@@ -33,11 +33,11 @@ public class RoleResources {
         this.roleId = roleId;
     }
 
-    public Integer getResourcesId() {
-        return resourcesId;
+    public Integer getResourceId() {
+        return resourceId;
     }
 
-    public void setResourcesId(Integer resourcesId) {
-        this.resourcesId = resourcesId;
+    public void setResourceId(Integer resourceId) {
+        this.resourceId = resourceId;
     }
 }
